@@ -11,7 +11,7 @@ SCREEN_HEIGHT = 720
 BOX_LENGTH = 78
 MARGIN = 2
 COLUMN_COUNT = int(SCREEN_WIDTH/(BOX_LENGTH+MARGIN))
-ROW_COUNT = int(SCREEN_WIDTH/(BOX_LENGTH+MARGIN))
+ROW_COUNT = int(SCREEN_HEIGHT/(BOX_LENGTH+MARGIN))  
 SCREEN_TITLE = "Cooperative Bots Design"
 MOVEMENT_SPEED = 1
 NUM_BOTS = 1
@@ -27,14 +27,14 @@ class Robot():
 
 class Parcel():
     def __init__(self, sprite):
-      self.x = random.randint(1, ROW_COUNT)
-      self.y = random.randint(1, COLUMN_COUNT)
+      self.x = random.randint(1, COLUMN_COUNT)
+      self.y = random.randint(1, ROW_COUNT)
       self.sprite = sprite
   
 class Destination():
     def __init__(self, sprite):
-      self.x = random.randint(1, ROW_COUNT)
-      self.y = random.randint(1, COLUMN_COUNT)
+      self.x = random.randint(1, COLUMN_COUNT)
+      self.y = random.randint(1, ROW_COUNT)
       self.sprite = sprite
 
 class GameWindow(arcade.Window):
