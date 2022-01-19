@@ -27,14 +27,14 @@ class Robot():
 
 class Parcel():
     def __init__(self, sprite):
-      self.x = random.randint(1, COLUMN_COUNT)
-      self.y = random.randint(1, ROW_COUNT)
+      self.x = random.randint(0, COLUMN_COUNT-1)
+      self.y = random.randint(0, ROW_COUNT-1)
       self.sprite = sprite
   
 class Destination():
     def __init__(self, sprite):
-      self.x = random.randint(1, COLUMN_COUNT)
-      self.y = random.randint(1, ROW_COUNT)
+      self.x = random.randint(0, COLUMN_COUNT-1)
+      self.y = random.randint(0, ROW_COUNT-1)
       self.sprite = sprite
 
 class GameWindow(arcade.Window):
