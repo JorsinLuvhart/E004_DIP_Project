@@ -100,16 +100,34 @@ class GameWindow(arcade.Window):
     self.destinationList.draw()
 
 
+  def on_update(self, delta_time):
+        """ Movement and game logic """
+
+        # Move the sprites
+        self.robotList.update()
+        self.parcelList.update()
+        self.destinationList.update()
+
   def on_key_press(self, key, modifiers):
     """Called whenever a key is pressed. """
     if key == arcade.key.UP:
-        self.player_sprite.change_y = MOVEMENT_SPEED
+        self.robot.sprite.change_y = MOVEMENT_SPEED
     elif key == arcade.key.DOWN:
-        self.player_sprite.change_y = -MOVEMENT_SPEED
+        self.robot.sprite.change_y = -MOVEMENT_SPEED
     elif key == arcade.key.LEFT:
-        self.player_sprite.change_x = -MOVEMENT_SPEED
+        self.robot.sprite.change_x = -MOVEMENT_SPEED
     elif key == arcade.key.RIGHT:
-        self.player_sprite.change_x = MOVEMENT_SPEED
+        self.robot.sprite.change_x = MOVEMENT_SPEED
+    
+  def on_key_release(self, key, modifiers):
+          """Called when the user releases a key. """
+
+          # If a player releases a key, zero out the speed, then the robot sprite will stop moving
+          
+          if key == arcade.key.UP or key == arcade.key.DOWN:
+              self.robot.sprite.change_y = 0
+          elif key == arcade.key.LEFT or key == arcade.key.RIGHT:
+              self.robot.sprite.change_x = 0
 
 def main():
     """Main function"""
