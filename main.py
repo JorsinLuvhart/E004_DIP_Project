@@ -20,21 +20,31 @@ NUM_PARCEL = 1
 
 #warehouse floor, 0=blank space, 1=robot, 2=parcel, 3=destination
 class Robot():
-    def __init__(self, sprite):
+    def __init__(self, sprite, warehouseFloor):
       self.x = 0
       self.y = 0
       self.sprite = sprite
+      warehouseFloor[self.x][self.y] = 1
 
 class Parcel():
-    def __init__(self, sprite):
+    def __init__(self, sprite, warehouseFloor):
       self.x = random.randint(0, COLUMN_COUNT-1)
       self.y = random.randint(0, ROW_COUNT-1)
+      while(warehouseFloor[self.x][self.y]): #if there is already an object there, rerandomise the location of the parcel
+        self.x = random.randint(0, COLUMN_COUNT-1)
+        self.y = random.randint(0, ROW_COUNT-1)
+      warehouseFloor[self.x][self.y] = 2
       self.sprite = sprite
+
   
 class Destination():
-    def __init__(self, sprite):
+    def __init__(self, sprite, warehouseFloor):
       self.x = random.randint(0, COLUMN_COUNT-1)
       self.y = random.randint(0, ROW_COUNT-1)
+      while(warehouseFloor[self.x][self.y]): #if there is already an object there, rerandomise the location of the parcel
+        self.x = random.randint(0, COLUMN_COUNT-1)
+        self.y = random.randint(0, ROW_COUNT-1)
+      warehouseFloor[self.x][self.y] = 3
       self.sprite = sprite
 
 class GameWindow(arcade.Window):
@@ -71,20 +81,20 @@ class GameWindow(arcade.Window):
 
     #robot sprite
     sprite = arcade.Sprite("Resources/robot.png")
-    self.robot = Robot(sprite)
+    self.robot = Robot(sprite,self.warehouseFloor)
     self.robot.sprite.center_x = self.robot.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
     self.robot.sprite.center_y = self.robot.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
     self.robotList.append(self.robot.sprite)
 
     #destination sprite
     sprite = arcade.Sprite("Resources/destination.png")
-    self.desti = Destination(sprite)
+    self.desti = Destination(sprite,self.warehouseFloor)
     self.desti.sprite.center_x = self.desti.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
     self.desti.sprite.center_y = self.desti.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
     self.destinationList.append(self.desti.sprite)
 
     sprite = arcade.Sprite("Resources/parcel.png")
-    self.parcel = Parcel(sprite)
+    self.parcel = Parcel(sprite,self.warehouseFloor)
     self.parcel.sprite.center_x = self.parcel.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
     self.parcel.sprite.center_y = self.parcel.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
     self.parcelList.append(self.parcel.sprite)
