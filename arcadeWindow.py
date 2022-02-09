@@ -6,19 +6,19 @@ print("Python version " + sys.version)
 
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
-GRID_SIZE = 80 #please only divide/multiply this by 2s
+GRID_SIZE = 80  # please only divide/multiply this by 2s
 MARGIN = 2
 SCALE = GRID_SIZE/80
 BOX_LENGTH = GRID_SIZE - MARGIN
 COLUMN_COUNT = int(SCREEN_WIDTH/(GRID_SIZE))
-ROW_COUNT = int(SCREEN_HEIGHT/(GRID_SIZE))  
+ROW_COUNT = int(SCREEN_HEIGHT/(GRID_SIZE))
 SCREEN_TITLE = "Cooperative Bots Design"
 MOVEMENT_SPEED = 1
 NUM_BOTS = 1
 NUM_DESTI = 1
 NUM_PARCEL = 1
 
-#warehouse floor, 0=blank space, 1=robot, 2=loaded robot, 3=parcel, 3=destination
+# warehouse floor, 0=blank space, 1=robot, 2=parcel, 3=destination
 class Robot():
   def __init__(self, warehouseFloor):
     self.x = 0
@@ -30,29 +30,29 @@ class Robot():
     self.sprite.scale = SCALE
     warehouseFloor[self.x][self.y] = 1 + self.loaded
 
-  def move_up(self,warehouseFloor):
-    if(self.y<ROW_COUNT-1):
+  def move_up(self, warehouseFloor):
+    if(self.y < ROW_COUNT-1):
       warehouseFloor[self.x][self.y] = 0
       self.y = self.y + 1
       warehouseFloor[self.x][self.y] = 1 + self.loaded
       self.sprite.center_y = self.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
 
-  def move_down(self,warehouseFloor):
-    if(self.y>0):
+  def move_down(self, warehouseFloor):
+    if(self.y > 0):
       warehouseFloor[self.x][self.y] = 0
       self.y = self.y - 1
       warehouseFloor[self.x][self.y] = 1 + self.loaded
       self.sprite.center_y = self.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
-  
+
   def move_left(self,warehouseFloor):
-    if(self.x>0):
+    if(self.x > 0):
       warehouseFloor[self.x][self.y] = 0
       self.x = self.x - 1
       warehouseFloor[self.x][self.y] = 1 + self.loaded
       self.sprite.center_x = self.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
 
-  def move_right(self,warehouseFloor):
-    if(self.x<COLUMN_COUNT-1): 
+  def move_right(self, warehouseFloor):
+    if(self.x < COLUMN_COUNT-1):
       warehouseFloor[self.x][self.y] = 0
       self.x = self.x + 1
       warehouseFloor[self.x][self.y] = 1 + self.loaded
@@ -62,7 +62,7 @@ class Parcel():
     def __init__(self, warehouseFloor):
       self.x = random.randint(0, COLUMN_COUNT-1)
       self.y = random.randint(0, ROW_COUNT-1)
-      while(warehouseFloor[self.x][self.y]): #if there is already an object there, rerandomise the location of the parcel
+      while(warehouseFloor[self.x][self.y]):  #if there is already an object there, rerandomise the location of the parcel
         self.x = random.randint(0, COLUMN_COUNT-1)
         self.y = random.randint(0, ROW_COUNT-1)
       warehouseFloor[self.x][self.y] = 3
@@ -75,7 +75,7 @@ class Destination():
     def __init__(self, warehouseFloor):
       self.x = random.randint(0, COLUMN_COUNT-1)
       self.y = random.randint(0, ROW_COUNT-1)
-      while(warehouseFloor[self.x][self.y]): #if there is already an object there, rerandomise the location of the parcel
+      while(warehouseFloor[self.x][self.y]):  #if there is already an object there, rerandomise the location of the parcel
         self.x = random.randint(0, COLUMN_COUNT-1)
         self.y = random.randint(0, ROW_COUNT-1)
       warehouseFloor[self.x][self.y] = 4
@@ -85,12 +85,12 @@ class Destination():
       self.sprite.scale = SCALE*1.5
 
 class GameWindow(arcade.Window):
-  
+
   def __init__(self):
     """ Initialise object here"""
     super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     arcade.set_background_color(arcade.color.BLACK)
-    self.warehouseFloor = np.zeros([COLUMN_COUNT,ROW_COUNT],dtype=int)
+    self.warehouseFloor = np.zeros([COLUMN_COUNT, ROW_COUNT], dtype=int)
     self.robotList = None
     self.parcelList = None
     self.destinationList = None
@@ -116,16 +116,23 @@ class GameWindow(arcade.Window):
         self.gridSpriteList.append(sprite)
         self.gridSprites[row].append(sprite)
 
-    #robot init
+    # robot sprite
     self.robot = Robot(self.warehouseFloor)
     self.robotList.append(self.robot.sprite)
 
-    #destination init
-    self.desti = Destination(self.warehouseFloor)
+    # destination sprite
+    sprite = arcade.Sprite("Resources/warehouse.png")
+    self.desti = Destination(sprite, self.warehouseFloor)
+    self.desti.sprite.center_x = self.desti.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
+    self.desti.sprite.center_y = self.desti.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
+    self.desti.sprite.scale = 1.5
     self.destinationList.append(self.desti.sprite)
 
-    #parcel init
-    self.parcel = Parcel(self.warehouseFloor)
+    sprite = arcade.Sprite("Resources/package.png")
+    self.parcel = Parcel(sprite, self.warehouseFloor)
+    self.parcel.sprite.center_x = self.parcel.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
+    self.parcel.sprite.center_y = self.parcel.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
+    self.parcel.sprite.scale = 1
     self.parcelList.append(self.parcel.sprite)
 
   def on_draw(self):
