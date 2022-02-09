@@ -151,36 +151,46 @@ class GameWindow(arcade.Window):
     if key == arcade.key.UP:
       if(self.warehouseFloor[self.robot.x][self.robot.y+1]==3 and self.robot.loaded!=1):
         self.robot.move_up(self.warehouseFloor)
-        self.parcelCol
+        self.parcelCol()
       else:
         self.robot.move_up(self.warehouseFloor)
     elif key == arcade.key.DOWN:
       if(self.warehouseFloor[self.robot.x][self.robot.y-1]==3 and self.robot.loaded!=1):
         self.robot.move_down(self.warehouseFloor)
-        self.parcelCol
+        self.parcelCol()
       else:
         self.robot.move_down(self.warehouseFloor)
     elif key == arcade.key.LEFT:
       if(self.warehouseFloor[self.robot.x-1][self.robot.y]==3 and self.robot.loaded!=1):
         self.robot.move_left(self.warehouseFloor)
-        self.parcelCol
+        self.parcelCol()
       else:
         self.robot.move_left(self.warehouseFloor)
     elif key == arcade.key.RIGHT:
-      if(self.warehouseFloor[self.robot.x+1][self.robot.y]==3 and self.robot.loaded!=1):
+      if((self.warehouseFloor[self.robot.x+1][self.robot.y]==3) and (self.robot.loaded!=1)):
         self.robot.move_right(self.warehouseFloor)
-        self.parcelCol
+        self.parcelCol()
       else:
         self.robot.move_right(self.warehouseFloor)
+    elif key == arcade.key.A:
+      self.printWHF()
+    
     
   def on_key_release(self, key, modifiers):
     """Called when the user releases a key. """
     pass
     # If a player releases a key, zero out the speed, then the robot sprite will stop moving
 
+  def printWHF(self):
+    for i in range(COLUMN_COUNT):
+      for j in range(ROW_COUNT):
+        print(self.warehouseFloor[j][i]+" ")
+      print("\n")
+
   def parcelCol(self):
-    #need to eventually figure out which is the collected parcel
-    self.parcelList.remove(self.parcel)
+    #need to eventually figure out which is the collected parcel\
+    self.parcelList.remove(self.parcel.sprite)
     self.robot.loaded = 1
+    del self.parcel
     self.parcel = Parcel(self.warehouseFloor)
-    self.parcelList.append(self.parcel)
+    self.parcelList.append(self.parcel.sprite)
