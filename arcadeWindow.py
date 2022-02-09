@@ -121,18 +121,10 @@ class GameWindow(arcade.Window):
     self.robotList.append(self.robot.sprite)
 
     # destination sprite
-    sprite = arcade.Sprite("Resources/warehouse.png")
-    self.desti = Destination(sprite, self.warehouseFloor)
-    self.desti.sprite.center_x = self.desti.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
-    self.desti.sprite.center_y = self.desti.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
-    self.desti.sprite.scale = 1.5
+    self.desti = Destination(self.warehouseFloor)
     self.destinationList.append(self.desti.sprite)
 
-    sprite = arcade.Sprite("Resources/package.png")
-    self.parcel = Parcel(sprite, self.warehouseFloor)
-    self.parcel.sprite.center_x = self.parcel.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
-    self.parcel.sprite.center_y = self.parcel.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
-    self.parcel.sprite.scale = 1
+    self.parcel = Parcel(self.warehouseFloor)
     self.parcelList.append(self.parcel.sprite)
 
   def on_draw(self):
