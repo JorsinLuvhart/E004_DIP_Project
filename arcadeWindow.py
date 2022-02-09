@@ -112,7 +112,7 @@ class GameWindow(arcade.Window):
         self.gridSprites[row].append(sprite)
 
     #robot sprite
-    self.robot = Robot(sprite,self.warehouseFloor)
+    self.robot = Robot(self.warehouseFloor)
     self.robotList.append(self.robot.sprite)
 
     #destination sprite
