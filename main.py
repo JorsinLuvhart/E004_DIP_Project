@@ -4,19 +4,20 @@ import arcade
 import random
 print("Python version " + sys.version)
 
-
-
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
-BOX_LENGTH = 78
+GRID_SIZE = 80 #please only divide/multiply this by 2s
 MARGIN = 2
-COLUMN_COUNT = int(SCREEN_WIDTH/(BOX_LENGTH+MARGIN))
-ROW_COUNT = int(SCREEN_HEIGHT/(BOX_LENGTH+MARGIN))  
+SCALE = GRID_SIZE/80
+BOX_LENGTH = GRID_SIZE - MARGIN
+COLUMN_COUNT = int(SCREEN_WIDTH/(GRID_SIZE))
+ROW_COUNT = int(SCREEN_HEIGHT/(GRID_SIZE))  
 SCREEN_TITLE = "Cooperative Bots Design"
 MOVEMENT_SPEED = 1
 NUM_BOTS = 1
 NUM_DESTI = 1
 NUM_PARCEL = 1
+BUTTON_HELD = True
 
 #warehouse floor, 0=blank space, 1=robot, 2=parcel, 3=destination
 class Robot():
@@ -84,6 +85,7 @@ class GameWindow(arcade.Window):
     self.robot = Robot(sprite,self.warehouseFloor)
     self.robot.sprite.center_x = self.robot.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
     self.robot.sprite.center_y = self.robot.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
+    self.robot.sprite.scale = SCALE
     self.robotList.append(self.robot.sprite)
 
     #destination sprite
@@ -91,12 +93,14 @@ class GameWindow(arcade.Window):
     self.desti = Destination(sprite,self.warehouseFloor)
     self.desti.sprite.center_x = self.desti.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
     self.desti.sprite.center_y = self.desti.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
+    self.desti.sprite.scale = SCALE
     self.destinationList.append(self.desti.sprite)
 
     sprite = arcade.Sprite("Resources/parcel.png")
     self.parcel = Parcel(sprite,self.warehouseFloor)
     self.parcel.sprite.center_x = self.parcel.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
     self.parcel.sprite.center_y = self.parcel.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
+    self.parcel.sprite.scale = SCALE
     self.parcelList.append(self.parcel.sprite)
 
   def on_draw(self):
@@ -121,13 +125,13 @@ class GameWindow(arcade.Window):
   def on_key_press(self, key, modifiers):
     """Called whenever a key is pressed. """
     if key == arcade.key.UP:
-        self.robot.sprite.change_y = MOVEMENT_SPEED
+        self.robot.sprite.change_y = GRID_SIZE
     elif key == arcade.key.DOWN:
-        self.robot.sprite.change_y = -MOVEMENT_SPEED
+        self.robot.sprite.change_y = -GRID_SIZE
     elif key == arcade.key.LEFT:
-        self.robot.sprite.change_x = -MOVEMENT_SPEED
+        self.robot.sprite.change_x = -GRID_SIZE
     elif key == arcade.key.RIGHT:
-        self.robot.sprite.change_x = MOVEMENT_SPEED
+        self.robot.sprite.change_x = GRID_SIZE
     
   def on_key_release(self, key, modifiers):
           """Called when the user releases a key. """
