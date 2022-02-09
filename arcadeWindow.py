@@ -81,7 +81,7 @@ class GameWindow(arcade.Window):
         self.gridSprites[row].append(sprite)
 
     #robot sprite
-    sprite = arcade.Sprite("Resources/robot.png")
+    sprite = arcade.Sprite("Resources/loader.png")
     self.robot = Robot(sprite,self.warehouseFloor)
     self.robot.sprite.center_x = self.robot.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
     self.robot.sprite.center_y = self.robot.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
