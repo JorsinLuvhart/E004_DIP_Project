@@ -26,7 +26,7 @@ class Robot():
     self.sprite = arcade.Sprite("Resources/loader.png")
     self.sprite.center_x = self.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
     self.sprite.center_y = self.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
-    self.sprite.scale = SCALE
+    self.sprite.scale = 1
     warehouseFloor[self.x][self.y] = 1
 
   def move_up(self,warehouseFloor):
@@ -83,7 +83,7 @@ class GameWindow(arcade.Window):
   def __init__(self):
     """ Initialise object here"""
     super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-    arcade.set_background_color(arcade.color.WHITE)
+    arcade.set_background_color(arcade.color.BLACK)
     self.warehouseFloor = np.zeros([COLUMN_COUNT,ROW_COUNT],dtype=int)
     self.robotList = None
     self.parcelList = None
@@ -105,7 +105,7 @@ class GameWindow(arcade.Window):
       for column in range(COLUMN_COUNT):
         x = column * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
         y = row * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
-        sprite = arcade.SpriteSolidColor(BOX_LENGTH, BOX_LENGTH, arcade.color.BLACK)
+        sprite = arcade.SpriteSolidColor(BOX_LENGTH, BOX_LENGTH, arcade.color.WHITE)
         sprite.center_x = x
         sprite.center_y = y
         self.gridSpriteList.append(sprite)
@@ -116,18 +116,18 @@ class GameWindow(arcade.Window):
     self.robotList.append(self.robot.sprite)
 
     #destination sprite
-    sprite = arcade.Sprite("Resources/destination.png")
+    sprite = arcade.Sprite("Resources/warehouse.png")
     self.desti = Destination(sprite,self.warehouseFloor)
     self.desti.sprite.center_x = self.desti.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
     self.desti.sprite.center_y = self.desti.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
-    self.desti.sprite.scale = SCALE
+    self.desti.sprite.scale = 1.5
     self.destinationList.append(self.desti.sprite)
 
-    sprite = arcade.Sprite("Resources/parcel.png")
+    sprite = arcade.Sprite("Resources/package.png")
     self.parcel = Parcel(sprite,self.warehouseFloor)
     self.parcel.sprite.center_x = self.parcel.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
     self.parcel.sprite.center_y = self.parcel.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
-    self.parcel.sprite.scale = SCALE
+    self.parcel.sprite.scale = 1
     self.parcelList.append(self.parcel.sprite)
     
 
