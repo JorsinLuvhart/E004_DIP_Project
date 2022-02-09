@@ -20,11 +20,42 @@ NUM_PARCEL = 1
 
 #warehouse floor, 0=blank space, 1=robot, 2=parcel, 3=destination
 class Robot():
-    def __init__(self, sprite, warehouseFloor):
-      self.x = 0
-      self.y = 0
-      self.sprite = sprite
+  def __init__(self, warehouseFloor):
+    self.x = 0
+    self.y = 0
+    self.sprite = arcade.Sprite("Resources/loader.png")
+    self.sprite.center_x = self.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
+    self.sprite.center_y = self.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
+    self.sprite.scale = SCALE
+    warehouseFloor[self.x][self.y] = 1
+
+  def move_up(self,warehouseFloor):
+    if(self.y<ROW_COUNT-1):
+      warehouseFloor[self.x][self.y] = 0
+      self.y = self.y + 1
       warehouseFloor[self.x][self.y] = 1
+      self.sprite.center_y = self.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
+
+  def move_down(self,warehouseFloor):
+    if(self.y>0):
+      warehouseFloor[self.x][self.y] = 0
+      self.y = self.y - 1
+      warehouseFloor[self.x][self.y] = 1
+      self.sprite.center_y = self.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
+  
+  def move_left(self,warehouseFloor):
+    if(self.x>0):
+      warehouseFloor[self.x][self.y] = 0
+      self.x = self.x - 1
+      warehouseFloor[self.x][self.y] = 1
+      self.sprite.center_x = self.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
+
+  def move_right(self,warehouseFloor):
+    if(self.x<COLUMN_COUNT-1): 
+      warehouseFloor[self.x][self.y] = 0
+      self.x = self.x + 1
+      warehouseFloor[self.x][self.y] = 1
+      self.sprite.center_x = self.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
 
 class Parcel():
     def __init__(self, sprite, warehouseFloor):
@@ -81,11 +112,7 @@ class GameWindow(arcade.Window):
         self.gridSprites[row].append(sprite)
 
     #robot sprite
-    sprite = arcade.Sprite("Resources/loader.png")
     self.robot = Robot(sprite,self.warehouseFloor)
-    self.robot.sprite.center_x = self.robot.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
-    self.robot.sprite.center_y = self.robot.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
-    self.robot.sprite.scale = SCALE
     self.robotList.append(self.robot.sprite)
 
     #destination sprite
@@ -126,13 +153,13 @@ class GameWindow(arcade.Window):
   def on_key_press(self, key, modifiers):
     """Called whenever a key is pressed. """
     if key == arcade.key.UP:
-        self.robot.sprite.center_y = self.robot.sprite.center_y + GRID_SIZE
+      self.robot.move_up(self.warehouseFloor)
     elif key == arcade.key.DOWN:
-        self.robot.sprite.center_y = self.robot.sprite.center_y - GRID_SIZE
+      self.robot.move_down(self.warehouseFloor)
     elif key == arcade.key.LEFT:
-        self.robot.sprite.center_x = self.robot.sprite.center_x-GRID_SIZE
+      self.robot.move_left(self.warehouseFloor)
     elif key == arcade.key.RIGHT:
-        self.robot.sprite.center_x = self.robot.sprite.center_x+GRID_SIZE
+      self.robot.move_right(self.warehouseFloor)
     
   def on_key_release(self, key, modifiers):
     """Called when the user releases a key. """
