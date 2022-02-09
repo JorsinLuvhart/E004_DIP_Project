@@ -17,7 +17,6 @@ MOVEMENT_SPEED = 1
 NUM_BOTS = 1
 NUM_DESTI = 1
 NUM_PARCEL = 1
-BUTTON_HELD = True
 
 #warehouse floor, 0=blank space, 1=robot, 2=parcel, 3=destination
 class Robot():
@@ -67,6 +66,7 @@ class GameWindow(arcade.Window):
     self.destinationList = arcade.SpriteList()
     self.gridSpriteList = arcade.SpriteList()
 
+    
     """Generating individual Grid Spites"""
     self.gridSprites = []
     for row in range(ROW_COUNT):
@@ -102,6 +102,7 @@ class GameWindow(arcade.Window):
     self.parcel.sprite.center_y = self.parcel.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
     self.parcel.sprite.scale = SCALE
     self.parcelList.append(self.parcel.sprite)
+    
 
   def on_draw(self):
     """Render the screen."""
@@ -125,23 +126,22 @@ class GameWindow(arcade.Window):
   def on_key_press(self, key, modifiers):
     """Called whenever a key is pressed. """
     if key == arcade.key.UP:
-        self.robot.sprite.change_y = GRID_SIZE
+        self.robot.sprite.center_y = self.robot.sprite.center_y + GRID_SIZE
     elif key == arcade.key.DOWN:
-        self.robot.sprite.change_y = -GRID_SIZE
+        self.robot.sprite.center_y = self.robot.sprite.center_y - GRID_SIZE
     elif key == arcade.key.LEFT:
-        self.robot.sprite.change_x = -GRID_SIZE
+        self.robot.sprite.center_x = self.robot.sprite.center_x-GRID_SIZE
     elif key == arcade.key.RIGHT:
-        self.robot.sprite.change_x = GRID_SIZE
+        self.robot.sprite.center_x = self.robot.sprite.center_x+GRID_SIZE
     
   def on_key_release(self, key, modifiers):
-          """Called when the user releases a key. """
+    """Called when the user releases a key. """
 
-          # If a player releases a key, zero out the speed, then the robot sprite will stop moving
-          
-          if key == arcade.key.UP or key == arcade.key.DOWN:
-              self.robot.sprite.change_y = 0
-          elif key == arcade.key.LEFT or key == arcade.key.RIGHT:
-              self.robot.sprite.change_x = 0
+    # If a player releases a key, zero out the speed, then the robot sprite will stop moving
+
+
+    
+    
 
 def main():
     """Main function"""
