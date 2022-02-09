@@ -84,6 +84,21 @@ class Destination():
       self.sprite.center_y = self.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
       self.sprite.scale = SCALE*1.5
 
+
+class Boulder():
+  def __init__(self, warehouseFloor):
+    self.x = random.randint(0, COLUMN_COUNT - 1)
+    self.y = random.randint(0, ROW_COUNT - 1)
+    while (
+    warehouseFloor[self.x][self.y]):  # if there is already an object there, rerandomise the location of the boulder
+      self.x = random.randint(0, COLUMN_COUNT - 1)
+      self.y = random.randint(0, ROW_COUNT - 1)
+    warehouseFloor[self.x][self.y] = 3
+    self.sprite = arcade.Sprite("Resources/boulder.png")
+    self.sprite.center_x = self.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN) / 2
+    self.sprite.center_y = self.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN) / 2
+    self.sprite.scale = SCALE
+
 class GameWindow(arcade.Window):
 
   def __init__(self):
@@ -93,6 +108,7 @@ class GameWindow(arcade.Window):
     self.warehouseFloor = np.zeros([COLUMN_COUNT, ROW_COUNT], dtype=int)
     self.robotList = None
     self.parcelList = None
+    self.boulderList = None
     self.destinationList = None
     self.gridSpriteList = None
 
@@ -100,6 +116,7 @@ class GameWindow(arcade.Window):
     """ Set up the game here. Call this function to restart the game. """
     self.robotList = arcade.SpriteList()
     self.parcelList = arcade.SpriteList()
+    self.boulderList = arcade.SpriteList()
     self.destinationList = arcade.SpriteList()
     self.gridSpriteList = arcade.SpriteList()
 
@@ -127,6 +144,9 @@ class GameWindow(arcade.Window):
     self.parcel = Parcel(self.warehouseFloor)
     self.parcelList.append(self.parcel.sprite)
 
+    self.boulder = Boulder(self.warehouseFloor)
+    self.boulderList.append(self.boulder.sprite)
+
   def on_draw(self):
     """Render the screen."""
     arcade.start_render()
@@ -135,6 +155,7 @@ class GameWindow(arcade.Window):
     self.gridSpriteList.draw()
     self.robotList.draw()
     self.parcelList.draw()
+    self.boulderList.draw()
     self.destinationList.draw()
 
 
