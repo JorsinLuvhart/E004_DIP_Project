@@ -84,7 +84,6 @@ class Destination():
       self.sprite.center_y = self.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
       self.sprite.scale = SCALE*1.5
 
-
 class Boulder():
   def __init__(self, warehouseFloor):
     self.x = random.randint(0, COLUMN_COUNT - 1)
@@ -93,7 +92,7 @@ class Boulder():
     warehouseFloor[self.x][self.y]):  # if there is already an object there, rerandomise the location of the boulder
       self.x = random.randint(0, COLUMN_COUNT - 1)
       self.y = random.randint(0, ROW_COUNT - 1)
-    warehouseFloor[self.x][self.y] = 3
+    warehouseFloor[self.x][self.y] = 5
     self.sprite = arcade.Sprite("Resources/boulder.png")
     self.sprite.center_x = self.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN) / 2
     self.sprite.center_y = self.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN) / 2
@@ -172,24 +171,36 @@ class GameWindow(arcade.Window):
       if(self.warehouseFloor[self.robot.x][self.robot.y+1]==3 and self.robot.loaded!=1):
         self.robot.move_up(self.warehouseFloor)
         self.parcelCol()
+      elif(self.warehouseFloor[self.robot.x][self.robot.y+1]==4 and self.robot.loaded==1):
+        self.robot.move_up(self.warehouseFloor)
+        self.parcelDep()																						  
       else:
         self.robot.move_up(self.warehouseFloor)
     elif key == arcade.key.DOWN:
       if(self.warehouseFloor[self.robot.x][self.robot.y-1]==3 and self.robot.loaded!=1):
         self.robot.move_down(self.warehouseFloor)
         self.parcelCol()
+      elif(self.warehouseFloor[self.robot.x][self.robot.y-1]==4 and self.robot.loaded==1):
+        self.robot.move_down(self.warehouseFloor)
+        self.parcelDep()																						  
       else:
         self.robot.move_down(self.warehouseFloor)
     elif key == arcade.key.LEFT:
       if(self.warehouseFloor[self.robot.x-1][self.robot.y]==3 and self.robot.loaded!=1):
         self.robot.move_left(self.warehouseFloor)
         self.parcelCol()
+      elif(self.warehouseFloor[self.robot.x-1][self.robot.y]==4 and self.robot.loaded==1):
+        self.robot.move_left(self.warehouseFloor)
+        self.parcelDep()																						  
       else:
         self.robot.move_left(self.warehouseFloor)
     elif key == arcade.key.RIGHT:
       if((self.warehouseFloor[self.robot.x+1][self.robot.y]==3) and (self.robot.loaded!=1)):
         self.robot.move_right(self.warehouseFloor)
         self.parcelCol()
+      elif((self.warehouseFloor[self.robot.x+1][self.robot.y]==4) and (self.robot.loaded==1)):
+        self.robot.move_right(self.warehouseFloor)
+        self.parcelDep()																							  
       else:
         self.robot.move_right(self.warehouseFloor)
     elif key == arcade.key.A:
@@ -214,3 +225,11 @@ class GameWindow(arcade.Window):
     del self.parcel
     self.parcel = Parcel(self.warehouseFloor)
     self.parcelList.append(self.parcel.sprite)
+
+  def parcelDep(self):
+    print("pog")
+    self.robot.loaded = 0
+    self.warehouseFloor[self.robot.x][self.robot.y] = 4					  
+				
+						 
+													   
