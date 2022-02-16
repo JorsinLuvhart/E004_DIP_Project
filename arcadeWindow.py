@@ -192,15 +192,17 @@ class GameWindow(arcade.Window):
 
   def parcelCol(self):
     #need to eventually figure out which is the collected parcel\
+    print("Col")
     self.parcelList.remove(self.parcel.sprite)
     self.robot.loaded = 1
+    self.warehouseFloor[self.parcel.x][self.parcel.y] = 0				
     del self.parcel
     self.parcel = Parcel(self.warehouseFloor)
     self.parcelList.append(self.parcel.sprite)
 
   def parcelDep(self):
-    self.robot.loaded = 0
-    self.warehouseFloor[self.robot.x][self.robot.y] = 4					  
+    print("Dep")
+    self.robot.loaded = 0			  
 				
 						 
 													   
