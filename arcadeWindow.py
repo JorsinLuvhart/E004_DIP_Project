@@ -24,7 +24,7 @@ class Robot():
     self.x = 0
     self.y = 0
     self.loaded = 0
-    self.sprite = arcade.Sprite("Resources/loader.png")
+    self.sprite = arcade.Sprite("Resources/robot-without-load.png")
     self.sprite.center_x = self.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
     self.sprite.center_y = self.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
     self.sprite.scale = SCALE
