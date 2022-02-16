@@ -80,8 +80,7 @@ class Boulder():
   def __init__(self, warehouseFloor):
     self.x = random.randint(0, COLUMN_COUNT - 1)
     self.y = random.randint(0, ROW_COUNT - 1)
-    while (
-    warehouseFloor[self.x][self.y]):  # if there is already an object there, rerandomise the location of the boulder
+    while (warehouseFloor[self.x][self.y]):  # if there is already an object there, rerandomise the location of the boulder
       self.x = random.randint(0, COLUMN_COUNT - 1)
       self.y = random.randint(0, ROW_COUNT - 1)
     warehouseFloor[self.x][self.y] = 5
@@ -135,8 +134,12 @@ class GameWindow(arcade.Window):
     self.parcel = Parcel(self.warehouseFloor)
     self.parcelList.append(self.parcel.sprite)
 
-    self.boulder = Boulder(self.warehouseFloor)
-    self.boulderList.append(self.boulder.sprite)
+    i = 0
+    for i in range(5):
+      print(i)
+      self.boulder = Boulder(self.warehouseFloor)
+      self.boulderList.append(self.boulder.sprite)
+      i = i + 1
 
   def on_draw(self):
     """Render the screen."""
