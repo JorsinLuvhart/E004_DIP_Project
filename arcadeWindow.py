@@ -2,6 +2,21 @@ import sys
 import numpy as np
 import arcade
 import random
+import math
+import os
+from pathlib import Path
+from typing import Optional, Union
+
+from arcade.resources import resolve_resource_path
+import pyglet
+
+if os.environ.get("ARCADE_SOUND_BACKENDS"):
+    pyglet.options["audio"] = tuple(v.strip() for v in os.environ["ARCADE_SOUND_BACKENDS"].split(","))
+else:
+    pyglet.options["audio"] = ("openal", "xaudio2", "directsound", "pulse", "silent")
+
+import pyglet.media as media
+
 print("Python version " + sys.version)
 
 SCREEN_WIDTH = 1280
