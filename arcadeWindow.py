@@ -128,8 +128,12 @@ class GameWindow(arcade.Window):
     self.robotList.append(self.robot.sprite)
 
     # destination sprite
-    self.desti = Destination(self.warehouseFloor)
-    self.destinationList.append(self.desti.sprite)
+    k = 0
+    for k in range(2):
+      print("warehouse ", k)  
+      self.desti = Destination(self.warehouseFloor)
+      self.destinationList.append(self.desti.sprite)
+      k = k + 1
 
     j = 0
     for j in range(1):
