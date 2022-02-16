@@ -160,17 +160,21 @@ class GameWindow(arcade.Window):
   def on_key_press(self, key, modifiers):
     """Called whenever a key is pressed. """
     if key == arcade.key.UP:
-      if(self.warehouseFloor[self.robot.x][self.robot.y+1]!=5):
-        self.robot.move_up(self.warehouseFloor)
+      if(self.robot.y < ROW_COUNT-1):
+        if(self.warehouseFloor[self.robot.x][self.robot.y+1]!=5):
+          self.robot.move_up(self.warehouseFloor)
     elif key == arcade.key.DOWN:
-      if(self.warehouseFloor[self.robot.x][self.robot.y-1]!=5):
-        self.robot.move_down(self.warehouseFloor)
+      if(self.robot.y > 0):
+        if(self.warehouseFloor[self.robot.x][self.robot.y-1]!=5):
+          self.robot.move_down(self.warehouseFloor)
     elif key == arcade.key.LEFT:
-      if(self.warehouseFloor[self.robot.x-1][self.robot.y]!=5):
-        self.robot.move_left(self.warehouseFloor)
+      if(self.robot.x > 0):
+        if(self.warehouseFloor[self.robot.x-1][self.robot.y]!=5):
+          self.robot.move_left(self.warehouseFloor)
     elif key == arcade.key.RIGHT:
-      if(self.warehouseFloor[self.robot.x+1][self.robot.y]!=5):
-        self.robot.move_right(self.warehouseFloor)
+      if(self.robot.x < COLUMN_COUNT-1):
+        if(self.warehouseFloor[self.robot.x+1][self.robot.y]!=5):
+          self.robot.move_right(self.warehouseFloor)
     elif key == arcade.key.A:
       self.printWHF()
     if(self.warehouseFloor[self.robot.x][self.robot.y]==3 and self.robot.loaded!=1):
