@@ -32,30 +32,22 @@ class Robot():
 
   def move_up(self, warehouseFloor):
     if(self.y < ROW_COUNT-1):
-      warehouseFloor[self.x][self.y] = 0
       self.y = self.y + 1
-      warehouseFloor[self.x][self.y] = 1 + self.loaded
       self.sprite.center_y = self.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
 
   def move_down(self, warehouseFloor):
     if(self.y > 0):
-      warehouseFloor[self.x][self.y] = 0
       self.y = self.y - 1
-      warehouseFloor[self.x][self.y] = 1 + self.loaded
       self.sprite.center_y = self.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
 
   def move_left(self,warehouseFloor):
     if(self.x > 0):
-      warehouseFloor[self.x][self.y] = 0
       self.x = self.x - 1
-      warehouseFloor[self.x][self.y] = 1 + self.loaded
       self.sprite.center_x = self.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
 
   def move_right(self, warehouseFloor):
     if(self.x < COLUMN_COUNT-1):
-      warehouseFloor[self.x][self.y] = 0
       self.x = self.x + 1
-      warehouseFloor[self.x][self.y] = 1 + self.loaded
       self.sprite.center_x = self.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
 
 class Parcel():
@@ -168,44 +160,24 @@ class GameWindow(arcade.Window):
   def on_key_press(self, key, modifiers):
     """Called whenever a key is pressed. """
     if key == arcade.key.UP:
-      if(self.warehouseFloor[self.robot.x][self.robot.y+1]==3 and self.robot.loaded!=1):
-        self.robot.move_up(self.warehouseFloor)
-        self.parcelCol()
-      elif(self.warehouseFloor[self.robot.x][self.robot.y+1]==4 and self.robot.loaded==1):
-        self.robot.move_up(self.warehouseFloor)
-        self.parcelDep()																						  
-      else:
+      if(self.warehouseFloor[self.robot.x][self.robot.y+1]!=5):
         self.robot.move_up(self.warehouseFloor)
     elif key == arcade.key.DOWN:
-      if(self.warehouseFloor[self.robot.x][self.robot.y-1]==3 and self.robot.loaded!=1):
-        self.robot.move_down(self.warehouseFloor)
-        self.parcelCol()
-      elif(self.warehouseFloor[self.robot.x][self.robot.y-1]==4 and self.robot.loaded==1):
-        self.robot.move_down(self.warehouseFloor)
-        self.parcelDep()																						  
-      else:
+      if(self.warehouseFloor[self.robot.x][self.robot.y-1]!=5):
         self.robot.move_down(self.warehouseFloor)
     elif key == arcade.key.LEFT:
-      if(self.warehouseFloor[self.robot.x-1][self.robot.y]==3 and self.robot.loaded!=1):
-        self.robot.move_left(self.warehouseFloor)
-        self.parcelCol()
-      elif(self.warehouseFloor[self.robot.x-1][self.robot.y]==4 and self.robot.loaded==1):
-        self.robot.move_left(self.warehouseFloor)
-        self.parcelDep()																						  
-      else:
+      if(self.warehouseFloor[self.robot.x-1][self.robot.y]!=5):
         self.robot.move_left(self.warehouseFloor)
     elif key == arcade.key.RIGHT:
-      if((self.warehouseFloor[self.robot.x+1][self.robot.y]==3) and (self.robot.loaded!=1)):
-        self.robot.move_right(self.warehouseFloor)
-        self.parcelCol()
-      elif((self.warehouseFloor[self.robot.x+1][self.robot.y]==4) and (self.robot.loaded==1)):
-        self.robot.move_right(self.warehouseFloor)
-        self.parcelDep()																							  
-      else:
+      if(self.warehouseFloor[self.robot.x+1][self.robot.y]!=5):
         self.robot.move_right(self.warehouseFloor)
     elif key == arcade.key.A:
       self.printWHF()
-    
+    if(self.warehouseFloor[self.robot.x][self.robot.y]==3 and self.robot.loaded!=1):
+      self.parcelCol()
+    elif(self.warehouseFloor[self.robot.x][self.robot.y]==4 and self.robot.loaded==1):
+      self.parcelDep()
+
     
   def on_key_release(self, key, modifiers):
     """Called when the user releases a key. """
@@ -227,7 +199,6 @@ class GameWindow(arcade.Window):
     self.parcelList.append(self.parcel.sprite)
 
   def parcelDep(self):
-    print("pog")
     self.robot.loaded = 0
     self.warehouseFloor[self.robot.x][self.robot.y] = 4					  
 				
