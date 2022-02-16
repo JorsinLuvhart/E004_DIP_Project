@@ -24,7 +24,7 @@ class Robot():
     self.x = 0
     self.y = 0
     self.loaded = 0
-    self.loadedWith = None
+    self.loadedWith = []
     self.sprite = arcade.Sprite("Resources/loader.png")
     self.sprite.center_x = self.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
     self.sprite.center_y = self.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
@@ -197,6 +197,12 @@ class GameWindow(arcade.Window):
       self.addDesti()
     elif key == arcade.key.C:
       self.addParcel()
+    elif key == arcade.key.A:
+      self.removeBoulder()
+    elif key == arcade.key.S:
+      self.removeDesti()
+    elif key == arcade.key.D:
+      self.removeParcel()
 
     # Evaluation
     if(self.warehouseFloor[self.robot.x][self.robot.y]==3 and self.robot.loaded!=1):
@@ -228,6 +234,23 @@ class GameWindow(arcade.Window):
     self.boulderObjList.append(boulder)
     self.boulderSpriteList.append(boulder.sprite)
 
+  def removeParcel(self):
+    if self.parcelObjList:
+      tgtParcel = self.parcelObjList.pop()
+      self.parcelSpriteList.remove(tgtParcel.sprite)
+      self.warehouseFloor[tgtParcel.x][tgtParcel.y] = 0
+
+  def removeDesti(self):
+    if self.destiObjList:
+      tgtDesti = self.destiObjList.pop()
+      self.destiSpriteList.remove(tgtDesti.sprite)
+      self.warehouseFloor[tgtDesti.x][tgtDesti.y] = 0
+
+  def removeBoulder(self):
+    if self.boulderObjList:
+      tgtBoulder = self.boulderObjList.pop()
+      self.boulderSpriteList.remove(tgtBoulder.sprite)
+      self.warehouseFloor[tgtBoulder.x][tgtBoulder.y] = 0
   
   def parcelCol(self,robot):
     print("Col")
@@ -235,14 +258,14 @@ class GameWindow(arcade.Window):
       if(parcel.x == robot.x and parcel.y == robot.y):
         tgtParcel = parcel
     self.parcelSpriteList.remove(tgtParcel.sprite)
-    self.robot.loaded = 1
+    robot.loaded = 1
     self.warehouseFloor[tgtParcel.x][tgtParcel.y] = 0				
     self.parcelObjList.remove(tgtParcel)
     
   
   def parcelDep(self,robot):
     print("Dep")
-    self.robot.loaded = 0
+    robot.loaded = 0
     
 				
 						 
