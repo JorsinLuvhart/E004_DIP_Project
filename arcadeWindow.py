@@ -131,12 +131,16 @@ class GameWindow(arcade.Window):
     self.desti = Destination(self.warehouseFloor)
     self.destinationList.append(self.desti.sprite)
 
-    self.parcel = Parcel(self.warehouseFloor)
-    self.parcelList.append(self.parcel.sprite)
+    j = 0
+    for j in range(1):
+      print("Parcel ", j)
+      self.parcel = Parcel(self.warehouseFloor)
+      self.parcelList.append(self.parcel.sprite)
+      j = j + 1
 
     i = 0
     for i in range(5):
-      print(i)
+      print("Object ", i)
       self.boulder = Boulder(self.warehouseFloor)
       self.boulderList.append(self.boulder.sprite)
       i = i + 1
