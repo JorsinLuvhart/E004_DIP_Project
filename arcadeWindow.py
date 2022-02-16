@@ -84,7 +84,7 @@ class Boulder():
       self.x = random.randint(0, COLUMN_COUNT - 1)
       self.y = random.randint(0, ROW_COUNT - 1)
     warehouseFloor[self.x][self.y] = 5
-    self.sprite = arcade.Sprite("Resources/boulder.png")
+    self.sprite = arcade.Sprite("Resources/brick.png")
     self.sprite.center_x = self.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN) / 2
     self.sprite.center_y = self.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN) / 2
     self.sprite.scale = SCALE
