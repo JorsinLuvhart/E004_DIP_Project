@@ -18,17 +18,18 @@ NUM_BOTS = 1
 NUM_DESTI = 1
 NUM_PARCEL = 1
 
-# warehouse floor, 0=blank space, 1=robot, 2=parcel, 3=destination
+# warehouse floor, 0=blank space, 1=robot, 3=parcel, 4=destination, 5=obstacle
 class Robot():
   def __init__(self, warehouseFloor):
     self.x = 0
     self.y = 0
     self.loaded = 0
+    self.loadedWith = None
     self.sprite = arcade.Sprite("Resources/loader.png")
     self.sprite.center_x = self.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
     self.sprite.center_y = self.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
     self.sprite.scale = SCALE
-    warehouseFloor[self.x][self.y] = 1 + self.loaded
+    warehouseFloor[self.x][self.y] = 1 #setting spawn location to not generate anything
 
   def move_up(self, warehouseFloor):
     if(self.y < ROW_COUNT-1):
@@ -52,12 +53,14 @@ class Robot():
 
 class Parcel():
     def __init__(self, warehouseFloor):
+      #initializing coordinates
       self.x = random.randint(0, COLUMN_COUNT-1)
       self.y = random.randint(0, ROW_COUNT-1)
       while(warehouseFloor[self.x][self.y]):  #if there is already an object there, rerandomise the location of the parcel
         self.x = random.randint(0, COLUMN_COUNT-1)
         self.y = random.randint(0, ROW_COUNT-1)
       warehouseFloor[self.x][self.y] = 3
+      #Sprite stuff
       self.sprite = arcade.Sprite("Resources/package.png")
       self.sprite.center_x = self.x * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
       self.sprite.center_y = self.y * (BOX_LENGTH + MARGIN) + (BOX_LENGTH + MARGIN)/2
@@ -97,18 +100,26 @@ class GameWindow(arcade.Window):
     super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     arcade.set_background_color(arcade.color.BLACK)
     self.warehouseFloor = np.zeros([COLUMN_COUNT, ROW_COUNT], dtype=int)
-    self.robotList = None
-    self.parcelList = None
-    self.boulderList = None
-    self.destinationList = None
+    #Spritelist Declaration
+    self.robotSpriteList = None
+    self.parcelSpriteList = None
+    self.boulderSpriteList = None
+    self.destiSpriteList = None
     self.gridSpriteList = None
+    #Object list Declaration
+    self.robotObjList = []
+    self.parcelObjList = []
+    self.destiObjList = []
+    self.boulderObjList = []
+
 
   def setup(self):
     """ Set up the game here. Call this function to restart the game. """
-    self.robotList = arcade.SpriteList()
-    self.parcelList = arcade.SpriteList()
-    self.boulderList = arcade.SpriteList()
-    self.destinationList = arcade.SpriteList()
+    #Spritelist Declaration
+    self.robotSpriteList = arcade.SpriteList()
+    self.parcelSpriteList = arcade.SpriteList()
+    self.boulderSpriteList = arcade.SpriteList()
+    self.destiSpriteList = arcade.SpriteList()
     self.gridSpriteList = arcade.SpriteList()
 
     """Generating individual Grid Spites"""
@@ -124,19 +135,22 @@ class GameWindow(arcade.Window):
         self.gridSpriteList.append(sprite)
         self.gridSprites[row].append(sprite)
 
+    # destination sprite
+    desti = Destination(self.warehouseFloor)
+    self.destiObjList.append(desti)
+    self.destiSpriteList.append(desti.sprite)
+
+    parcel = Parcel(self.warehouseFloor)
+    self.parcelObjList.append(parcel)
+    self.parcelSpriteList.append(parcel.sprite)
+
+    boulder = Boulder(self.warehouseFloor)
+    self.boulderObjList.append(boulder)
+    self.boulderSpriteList.append(boulder.sprite)
+
     # robot sprite
     self.robot = Robot(self.warehouseFloor)
-    self.robotList.append(self.robot.sprite)
-
-    # destination sprite
-    self.desti = Destination(self.warehouseFloor)
-    self.destinationList.append(self.desti.sprite)
-
-    self.parcel = Parcel(self.warehouseFloor)
-    self.parcelList.append(self.parcel.sprite)
-
-    self.boulder = Boulder(self.warehouseFloor)
-    self.boulderList.append(self.boulder.sprite)
+    self.robotSpriteList.append(self.robot.sprite)
 
   def on_draw(self):
     """Render the screen."""
@@ -144,18 +158,18 @@ class GameWindow(arcade.Window):
     
     # Code to draw the screen goes here
     self.gridSpriteList.draw()
-    self.robotList.draw()
-    self.parcelList.draw()
-    self.boulderList.draw()
-    self.destinationList.draw()
-
+    self.robotSpriteList.draw()
+    self.parcelSpriteList.draw()
+    self.boulderSpriteList.draw()
+    self.destiSpriteList.draw()
 
   def on_update(self, delta_time):
-      """ Movement and game logic """
-      # Move the sprites
-      self.robotList.update()
-      self.parcelList.update()
-      self.destinationList.update()
+    """ Movement and game logic """
+    # Move the sprites
+    self.robotSpriteList.update()
+    self.parcelSpriteList.update()
+    self.destiSpriteList.update()
+    self.boulderSpriteList.update()
 
   def on_key_press(self, key, modifiers):
     """Called whenever a key is pressed. """
@@ -175,12 +189,20 @@ class GameWindow(arcade.Window):
       if(self.robot.x < COLUMN_COUNT-1):
         if(self.warehouseFloor[self.robot.x+1][self.robot.y]!=5):
           self.robot.move_right(self.warehouseFloor)
-    elif key == arcade.key.A:
+    elif key == arcade.key.W:
       self.printWHF()
+    elif key == arcade.key.Z:
+      self.addBoulder()
+    elif key == arcade.key.X:
+      self.addDesti()
+    elif key == arcade.key.C:
+      self.addParcel()
+
+    # Evaluation
     if(self.warehouseFloor[self.robot.x][self.robot.y]==3 and self.robot.loaded!=1):
-      self.parcelCol()
+      self.parcelCol(self.robot)
     elif(self.warehouseFloor[self.robot.x][self.robot.y]==4 and self.robot.loaded==1):
-      self.parcelDep()
+      self.parcelDep(self.robot)
 
     
   def on_key_release(self, key, modifiers):
@@ -189,24 +211,39 @@ class GameWindow(arcade.Window):
     # If a player releases a key, zero out the speed, then the robot sprite will stop moving
 
   def printWHF(self):
-    for i in range(COLUMN_COUNT):
-      for j in range(ROW_COUNT):
-        print(self.warehouseFloor[j][i]+" ")
-      print("\n")
+    print(self.warehouseFloor)
 
-  def parcelCol(self):
-    #need to eventually figure out which is the collected parcel\
+  def addParcel(self):
+    parcel = Parcel(self.warehouseFloor)
+    self.parcelObjList.append(parcel)
+    self.parcelSpriteList.append(parcel.sprite)
+
+  def addDesti(self):
+    desti = Destination(self.warehouseFloor)
+    self.destiObjList.append(desti)
+    self.destiSpriteList.append(desti.sprite)
+
+  def addBoulder(self):
+    boulder = Boulder(self.warehouseFloor)
+    self.boulderObjList.append(boulder)
+    self.boulderSpriteList.append(boulder.sprite)
+
+  
+  def parcelCol(self,robot):
     print("Col")
-    self.parcelList.remove(self.parcel.sprite)
+    for parcel in self.parcelObjList:
+      if(parcel.x == robot.x and parcel.y == robot.y):
+        tgtParcel = parcel
+    self.parcelSpriteList.remove(tgtParcel.sprite)
     self.robot.loaded = 1
-    self.warehouseFloor[self.parcel.x][self.parcel.y] = 0				
-    del self.parcel
-    self.parcel = Parcel(self.warehouseFloor)
-    self.parcelList.append(self.parcel.sprite)
-
-  def parcelDep(self):
+    self.warehouseFloor[tgtParcel.x][tgtParcel.y] = 0				
+    self.parcelObjList.remove(tgtParcel)
+    
+  
+  def parcelDep(self,robot):
     print("Dep")
-    self.robot.loaded = 0			  
+    self.robot.loaded = 0
+    
 				
 						 
 													   
