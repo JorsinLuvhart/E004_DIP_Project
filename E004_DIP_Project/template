@@ -1,0 +1,126 @@
+import turtle
+import random
+
+class Robot:
+    def __init__(self,x,y):
+        # Paddle
+        self.paddle = turtle.Turtle()  # Create a turtle object
+        self.paddle.shape('square')  # Select a square shape
+        self.paddle.speed(0)
+        self.paddle.shapesize(stretch_wid=1, stretch_len=1)  # Streach the length of square by 5
+        self.paddle.penup()
+        self.paddle.color('white')  # Set the color to white
+        self.paddle.goto(x, y)  # Place the shape on bottom of the screen
+#         turtle.done()
+        self.load=0
+    def color(self,color):
+        self.paddle.color(color)
+    # Paddle Movement
+    def paddle_right(self):
+        x = self.paddle.xcor()  # Get the x position of paddle
+        if x < 100:
+            self.paddle.setx(x + 20)  # increment the x position by 20
+
+    def paddle_left(self):
+        x = self.paddle.xcor()  # Get the x position of paddle
+        if x > -100:
+            self.paddle.setx(x - 20)  # decrement the x position by 20
+
+    # Paddle Movement
+    def paddle_up(self):
+        y = self.paddle.ycor()  # Get the x position of paddle
+        if y < 100:
+            self.paddle.sety(y + 20)  # increment the x position by 20
+
+    def paddle_down(self):
+        y = self.paddle.ycor()  # Get the x position of paddle
+        if y > -100:
+            self.paddle.sety(y - 20)  # decrement the x position by 20
+
+class Object:
+    def __init__(self,x,y,color):
+        self.parcel = turtle.Turtle()  # Create a turtle object
+        self.parcel.shape('square')  # Select a square shape
+        self.parcel.speed(0)
+        self.parcel.shapesize(stretch_wid=1, stretch_len=1)  # Streach the length of square by 5
+        self.parcel.penup()
+        self.parcel.color(color)  # Set the color to white
+        self.parcel.goto(x, y)  # Place the shape on bottom of the screen
+#         turtle.done()
+
+
+class Game:
+    def __init__(self):
+        self.win = turtle.Screen()  # Create a screen
+        self.win.title('Warehouse')  # Set the title to paddle
+        self.win.bgcolor('black')  # Set the color to black
+        self.win.tracer(0)
+        self.win.setup(width=600, height=600)  # Set the width and height to 600
+        self.robot=Robot(random.randrange(-100,120,20),random.randrange(-100,120,20))
+        self.parcel=Object(random.randrange(-100,120,20),random.randrange(-100,120,20),'orange')
+        self.destination=Object(0,0,'green')
+        # self.destination=Object(random.randrange(-100,120,20),random.randrange(-100,120,20),'green')
+        self.stepnum=0
+
+
+
+    def action(self,action):
+        self.stepnum+=1
+        self.y=self.robot.paddle.ycor() - self.parcel.parcel.ycor()
+        self.x=self.robot.paddle.xcor() - self.destination.parcel.xcor()
+        if action==0:
+            pass
+        if action==1:
+            self.robot.paddle_up()
+        if action==2:
+            self.robot.paddle_down()
+        if action == 3:
+            self.robot.paddle_left()
+        if action == 4:
+            self.robot.paddle_right()
+
+
+
+    def evaluate(self):
+        self.reward = 0
+
+        if  self.robot.load==0 and self.robot.paddle.ycor() - self.parcel.parcel.ycor() == 0 and abs(self.robot.paddle.xcor() - self.parcel.parcel.xcor()) == 0:
+            self.reward+=10
+            self.robot.load=1
+            self.robot.color('orange')
+            self.parcel.parcel.goto(random.randrange(-100,120,20),random.randrange(-100,120,20))
+
+
+
+        elif self.robot.load==1 and abs(self.robot.paddle.ycor() - self.destination.parcel.ycor()) == 0 and self.robot.paddle.xcor() - self.destination.parcel.xcor() == 0:
+            self.reward+=10
+            self.robot.load=2
+            self.robot.color('white')
+            # self.destination.parcel.goto(random.randrange(-100,120,20),random.randrange(-100,120,20))
+
+
+
+#         elif self.robot.load==0:
+#             self.reward += 1000 - abs(self.robot.paddle.ycor() - self.parcel.parcel.ycor()) - abs(
+#                 self.robot.paddle.xcor() - self.parcel.parcel.xcor())
+#             self.reward -= 10
+
+#         elif self.robot.load == 1:
+#             self.reward += 1000 - abs(self.robot.paddle.ycor() - self.destination.parcel.ycor()) - abs(
+#                 self.robot.paddle.xcor() - self.destination.parcel.xcor())
+#             self.reward -= 10
+        else:
+            self.reward-=1
+
+        return self.reward
+    def is_done(self):
+        if self.stepnum==100 or self.robot.load==2:
+            self.win.clear()
+            return True
+        return False
+    def observe(self):
+        ret=[(self.robot.paddle.xcor()+100)/20,(self.robot.paddle.ycor()+100)/20,self.robot.load,(self.robot.paddle.xcor()+100)/20,
+             (self.parcel.parcel.ycor()+100)/20,(self.destination.parcel.xcor()+100)/20,(self.destination.parcel.ycor()+100)/20]
+        return ret
+    def view(self):
+        self.win.update()  # Show the scree continuously
