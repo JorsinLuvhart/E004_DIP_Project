@@ -8,6 +8,7 @@ authors = ["JorsinLuvhart <<>>"]
 python = "^3.8"
 arcade = "^2.6.9"
 pygame = "^2.1.2"
+numpy = "^1.22.2"
 
 [tool.poetry.dev-dependencies]
 
