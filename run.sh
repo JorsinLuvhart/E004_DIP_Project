@@ -1,1 +1,1 @@
-python pygameMultibot.py
+python main.py
