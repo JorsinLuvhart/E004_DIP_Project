@@ -1,2 +1,1 @@
-pip3 install arcade
-python main.py
+python pygameMultibot.py
