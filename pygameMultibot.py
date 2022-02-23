@@ -14,10 +14,6 @@ BOX_LENGTH = GRID_SIZE - MARGIN
 COLUMN_COUNT = int(SCREEN_WIDTH / (GRID_SIZE))
 ROW_COUNT = int(SCREEN_HEIGHT / (GRID_SIZE))
 SCREEN_TITLE = "Cooperative Bots Design"
-MOVEMENT_SPEED = 1
-NUM_BOTS = 1
-NUM_DESTI = 1
-NUM_PARCEL = 1
 
 
 # warehouse floor, 0=blank space, 1=robot, 2=parcel, 3=destination
@@ -183,26 +179,18 @@ class GameWindow():
     def action(self, action):
         self.stepnum += 1
 
-        if action // 5 == 0:
+        for robot in self.robotList:
+          if action % 5 == 0:
             pass
-        if action // 5 == 1:
-            self.robotList[0].move_up(self.warehouseFloor)
-        if action // 5 == 2:
-            self.robotList[0].move_down(self.warehouseFloor)
-        if action // 5 == 3:
-            self.robotList[0].move_left(self.warehouseFloor)
-        if action // 5 == 4:
-            self.robotList[0].move_right(self.warehouseFloor)
-        if action % 5 == 0:
-            pass
-        if action % 5 == 1:
-            self.robotList[1].move_up(self.warehouseFloor)
-        if action % 5 == 2:
-            self.robotList[1].move_down(self.warehouseFloor)
-        if action % 5 == 3:
-            self.robotList[1].move_left(self.warehouseFloor)
-        if action % 5 == 4:
-            self.robotList[1].move_right(self.warehouseFloor)
+          elif action % 5 == 1:
+            robot.move_up(self.warehouseFloor)
+          elif action % 5 == 2:
+            robot.move_down(self.warehouseFloor)
+          elif action % 5 == 3:
+            robot.move_left(self.warehouseFloor)
+          elif action % 5 == 4:
+            robot.move_right(self.warehouseFloor)
+          action = action//5
 
     def evaluate(self):
         self.reward = 0
