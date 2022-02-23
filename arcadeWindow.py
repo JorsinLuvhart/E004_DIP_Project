@@ -373,28 +373,28 @@ class GameWindow(arcade.Window):
       if(self.robot.y < ROW_COUNT-1):
         if(self.warehouseFloor[self.robot.x][self.robot.y+1]!=5):
           self.robot.move_up(self.warehouseFloor)
-	  parcelaudio = arcade.load_sound("Resources/parcelpickup.wav", False)
+          parcelaudio = arcade.load_sound("Resources/movement.mp3", False)
           arcade.play_sound(parcelaudio, 2.0, -1, False)
           parcelaudio.play()
     elif key == arcade.key.DOWN:
       if(self.robot.y > 0):
         if(self.warehouseFloor[self.robot.x][self.robot.y-1]!=5):
           self.robot.move_down(self.warehouseFloor)
-	  parcelaudio = arcade.load_sound("Resources/parcelpickup.wav", False)
+          parcelaudio = arcade.load_sound("Resources/movement.mp3", False)
           arcade.play_sound(parcelaudio, 2.0, -1, False)
           parcelaudio.play()
     elif key == arcade.key.LEFT:
       if(self.robot.x > 0):
         if(self.warehouseFloor[self.robot.x-1][self.robot.y]!=5):
           self.robot.move_left(self.warehouseFloor)
-	  parcelaudio = arcade.load_sound("Resources/parcelpickup.wav", False)
+          parcelaudio = arcade.load_sound("Resources/movement.mp3", False)
           arcade.play_sound(parcelaudio, 2.0, -1, False)
           parcelaudio.play()
     elif key == arcade.key.RIGHT:
       if(self.robot.x < COLUMN_COUNT-1):
         if(self.warehouseFloor[self.robot.x+1][self.robot.y]!=5):
           self.robot.move_right(self.warehouseFloor)
-	  parcelaudio = arcade.load_sound("Resources/parcelpickup.wav", False)
+          parcelaudio = arcade.load_sound("Resources/movement.mp3", False)
           arcade.play_sound(parcelaudio, 2.0, -1, False)
           parcelaudio.play()
     elif key == arcade.key.A:
