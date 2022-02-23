@@ -1,8 +1,8 @@
-from pygameMultibot.py import GameWindow
+from pygameMultibot import GameWindow
     
 
 def main():
-    gameWin = GameWindow()
+    gameWin = GameWindow(1,2)
 
 if __name__ == "__main__":
   main()

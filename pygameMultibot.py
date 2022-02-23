@@ -246,4 +246,4 @@ class GameWindow():
             self.dis.blit(boulder.image, (boulder.x * 80, boulder.y * 80))
         pygame.display.update()
 
-a=GameWindow(1,2)
+#a=GameWindow(1,2)
