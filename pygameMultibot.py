@@ -18,32 +18,42 @@ SCREEN_TITLE = "Cooperative Bots Design"
 
 # warehouse floor, 0=blank space, 1=robot, 2=parcel, 3=destination
 class Robot():
-    def __init__(self, warehouseFloor, x, y):
+    def __init__(self, warehouseFloor, x, y,rbtCount):
         self.x = x
         self.y = y
         self.loaded = 0
         self.image = pygame.image.load(r"Resources/loader.png")
-        # warehouseFloor[self.x][self.y] = 1 + self.loaded
+        self.id = 1 + rbtCount*2
+        warehouseFloor[self.x][self.y][1] = 1 + rbtCount*2 + self.loaded
 
     def move_up(self, warehouseFloor):
-        if (self.y < ROW_COUNT - 1 and warehouseFloor[self.x][self.y + 1] not in [3]):
-            if not (self.loaded == 1 and warehouseFloor[self.x][self.y + 1] == 1):
+        if (self.y < ROW_COUNT - 1 and warehouseFloor[self.x][self.y + 1][0] not in [3]):
+            if not (self.loaded == 1 or warehouseFloor[self.x][self.y + 1][1] != 0):
+                warehouseFloor[self.x][self.y][1] = 0  
                 self.y = self.y + 1
+                warehouseFloor[self.x][self.y+1][1] = self.id + self.loaded  
 
     def move_down(self, warehouseFloor):
-        if (self.y > 0 and warehouseFloor[self.x][self.y - 1] not in [3]):
-            if not (self.loaded == 1 and warehouseFloor[self.x][self.y - 1] == 1):
+        if (self.y > 0 and warehouseFloor[self.x][self.y - 1][0] not in [3]):
+            if not (self.loaded == 1 or warehouseFloor[self.x][self.y - 1][1] != 0):
+                warehouseFloor[self.x][self.y][1] = 0  
                 self.y = self.y - 1
+                warehouseFloor[self.x][self.y-1][1] = self.id + self.loaded
 
     def move_left(self, warehouseFloor):
-        if (self.x > 0 and warehouseFloor[self.x - 1][self.y] not in [3]):
-            if not (self.loaded == 1 and warehouseFloor[self.x - 1][self.y] == 1):
+        if (self.x > 0 and warehouseFloor[self.x - 1][self.y][0] not in [3]):
+            if not (self.loaded == 1 or warehouseFloor[self.x - 1][self.y][1] != 0):
+                warehouseFloor[self.x][self.y][1] = 0  
                 self.x = self.x - 1
+                warehouseFloor[self.x-1][self.y][1] = self.id + self.loaded
 
     def move_right(self, warehouseFloor):
-        if (self.x < COLUMN_COUNT - 1 and warehouseFloor[self.x + 1][self.y] not in [3]):
-            if not (self.loaded == 1 and warehouseFloor[self.x + 1][self.y] == 1):
+        if (self.x < COLUMN_COUNT - 1 and warehouseFloor[self.x + 1][self.y][0] not in [3]):
+            if not (self.loaded == 1 or warehouseFloor[self.x + 1][self.y][1] != 0):
+                warehouseFloor[self.x][self.y][1] = 0  
                 self.x = self.x + 1
+                warehouseFloor[self.x+1][self.y][1] = self.id + self.loaded
+              
 
 
 class Parcel():
@@ -56,7 +66,7 @@ class Parcel():
         #   self.x = random.randint(0, COLUMN_COUNT-1)
         #   self.y = random.randint(0, ROW_COUNT-1)
         self.image = pygame.image.load(r"Resources/package.png")
-        warehouseFloor[self.x][self.y] = 1
+        warehouseFloor[self.x][self.y][0] = 1
 
 
 class Destination():
@@ -69,7 +79,7 @@ class Destination():
         self.x = x
         self.y = y
         self.image = pygame.image.load(r"Resources/warehouse.png")
-        warehouseFloor[self.x][self.y] = 2
+        warehouseFloor[self.x][self.y][0] = 2
 
 
 class Boulder():
@@ -83,7 +93,7 @@ class Boulder():
         self.x = x
         self.y = y
         self.image = pygame.image.load(r"Resources/boulder.png")
-        warehouseFloor[self.x][self.y] = 3
+        warehouseFloor[self.x][self.y][0] = 3
 
 
 class GameWindow():
@@ -91,7 +101,7 @@ class GameWindow():
     def __init__(self, manualControl, parcelNum):
         """ Initialise object here"""
 
-        self.warehouseFloor = np.zeros([COLUMN_COUNT, ROW_COUNT], dtype=int)
+        self.warehouseFloor = np.zeros([COLUMN_COUNT, ROW_COUNT,2], dtype=int)
         self.stepnum = 0
         self.collected = -1
         pygame.init()
@@ -113,7 +123,7 @@ class GameWindow():
         self.robotList = []
         self.robotCor = [[0, 0], [8, 0]]
         for robot in self.robotCor:
-            self.robotList.append(Robot(self.warehouseFloor, robot[0], robot[1]))
+            self.robotList.append(Robot(self.warehouseFloor, robot[0], robot[1],len(robotList)))
 
         # destination sprite
         self.destiList = []
@@ -157,16 +167,14 @@ class GameWindow():
                 self.view1()
 
     def printWHF(self):
-        for i in range(COLUMN_COUNT):
-            for j in range(ROW_COUNT):
-                print(self.warehouseFloor[j][i] + " ")
-            print("\n")
+      print(self.warehouseFloor[][][0])
+      print(self.warehouseFloor[][][1])
 
     def parcelCol(self, parcel, robot):
         # need to eventually figure out which is the collected parcel\
         # print("Col")
         robot.loaded = 1
-        self.warehouseFloor[parcel.x][parcel.y] = 0
+        self.warehouseFloor[parcel.x][parcel.y][0] = 0
         self.parcelList.remove(parcel)
         del parcel
         self.parcelList.append(Parcel(self.warehouseFloor, self.parcelCor[self.collected % len(self.parcelCor)][0],
@@ -195,14 +203,14 @@ class GameWindow():
     def evaluate(self):
         self.reward = 0
         for robot in self.robotList:
-            if (self.warehouseFloor[robot.x][robot.y] == 1 and robot.loaded != 1):
+            if (self.warehouseFloor[robot.x][robot.y][0] == 1 and robot.loaded != 1):
                 self.collected += 1
                 for parcel in self.parcelList:
                     if robot.x == parcel.x and robot.y == parcel.y:
                         self.parcelCol(parcel, robot)
                         continue
                 self.reward += 1
-            elif (self.warehouseFloor[robot.x][robot.y] == 2 and robot.loaded == 1):
+            elif (self.warehouseFloor[robot.x][robot.y][0] == 2 and robot.loaded == 1):
                 self.parcelDep(robot)
                 self.reward += 1
             else:
