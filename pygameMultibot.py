@@ -28,31 +28,27 @@ class Robot():
 
     def move_up(self, warehouseFloor):
         if (self.y < ROW_COUNT - 1 and warehouseFloor[self.x][self.y + 1][0] not in [3]):
-            if not (self.loaded == 1 or warehouseFloor[self.x][self.y + 1][1] != 0):
-                warehouseFloor[self.x][self.y][1] = 0  
-                self.y = self.y + 1
-                warehouseFloor[self.x][self.y+1][1] = self.id + self.loaded  
+            warehouseFloor[self.x][self.y][1] = 0  
+            self.y = self.y + 1
+            warehouseFloor[self.x][self.y+1][1] = self.id + self.loaded  
 
     def move_down(self, warehouseFloor):
         if (self.y > 0 and warehouseFloor[self.x][self.y - 1][0] not in [3]):
-            if not (self.loaded == 1 or warehouseFloor[self.x][self.y - 1][1] != 0):
-                warehouseFloor[self.x][self.y][1] = 0  
-                self.y = self.y - 1
-                warehouseFloor[self.x][self.y-1][1] = self.id + self.loaded
+            warehouseFloor[self.x][self.y][1] = 0  
+            self.y = self.y - 1
+            warehouseFloor[self.x][self.y-1][1] = self.id + self.loaded
 
     def move_left(self, warehouseFloor):
         if (self.x > 0 and warehouseFloor[self.x - 1][self.y][0] not in [3]):
-            if not (self.loaded == 1 or warehouseFloor[self.x - 1][self.y][1] != 0):
-                warehouseFloor[self.x][self.y][1] = 0  
-                self.x = self.x - 1
-                warehouseFloor[self.x-1][self.y][1] = self.id + self.loaded
+            warehouseFloor[self.x][self.y][1] = 0  
+            self.x = self.x - 1
+            warehouseFloor[self.x-1][self.y][1] = self.id + self.loaded
 
     def move_right(self, warehouseFloor):
         if (self.x < COLUMN_COUNT - 1 and warehouseFloor[self.x + 1][self.y][0] not in [3]):
-            if not (self.loaded == 1 or warehouseFloor[self.x + 1][self.y][1] != 0):
-                warehouseFloor[self.x][self.y][1] = 0  
-                self.x = self.x + 1
-                warehouseFloor[self.x+1][self.y][1] = self.id + self.loaded
+            warehouseFloor[self.x][self.y][1] = 0  
+            self.x = self.x + 1
+            warehouseFloor[self.x+1][self.y][1] = self.id + self.loaded
               
 
 
@@ -123,7 +119,7 @@ class GameWindow():
         self.robotList = []
         self.robotCor = [[0, 0], [8, 0]]
         for robot in self.robotCor:
-            self.robotList.append(Robot(self.warehouseFloor, robot[0], robot[1],len(robotList)))
+            self.robotList.append(Robot(self.warehouseFloor, robot[0], robot[1],len(self.robotList)))
 
         # destination sprite
         self.destiList = []
@@ -167,8 +163,8 @@ class GameWindow():
                 self.view1()
 
     def printWHF(self):
-      print(self.warehouseFloor[][][0])
-      print(self.warehouseFloor[][][1])
+      print(self.warehouseFloor[:][:][0])
+      print(self.warehouseFloor[:][:][1])
 
     def parcelCol(self, parcel, robot):
         # need to eventually figure out which is the collected parcel\
