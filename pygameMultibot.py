@@ -26,26 +26,26 @@ class Robot():
         self.id = 1 + rbtCount*2
         warehouseFloor[self.x][self.y][1] = 1 + rbtCount*2 + self.loaded
 
-    def move_down(self, warehouseFloor):
-        if (self.y < ROW_COUNT - 1 and warehouseFloor[self.x][self.y + 1][0] not in [3] and (not self.loaded or warehouseFloor[self.x][self.y + 1][0] not in [1])):
+    def move_up(self, warehouseFloor):
+        if (self.y < ROW_COUNT - 1 and warehouseFloor[self.x][self.y + 1][0] not in [3]):
             warehouseFloor[self.x][self.y][1] = 0  
             self.y = self.y + 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded  
 
-    def move_up(self, warehouseFloor):
-        if (self.y > 0 and warehouseFloor[self.x][self.y - 1][0] not in [3] and (not self.loaded or warehouseFloor[self.x][self.y + 1][0] not in [1])):
+    def move_down(self, warehouseFloor):
+        if (self.y > 0 and warehouseFloor[self.x][self.y - 1][0] not in [3]):
             warehouseFloor[self.x][self.y][1] = 0  
             self.y = self.y - 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded
 
     def move_left(self, warehouseFloor):
-        if (self.x > 0 and warehouseFloor[self.x - 1][self.y][0] not in [3] and (not self.loaded or warehouseFloor[self.x][self.y + 1][0] not in [1])):
+        if (self.x > 0 and warehouseFloor[self.x - 1][self.y][0] not in [3]):
             warehouseFloor[self.x][self.y][1] = 0  
             self.x = self.x - 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded
 
     def move_right(self, warehouseFloor):
-        if (self.x < COLUMN_COUNT - 1 and warehouseFloor[self.x + 1][self.y][0] not in [3] and (not self.loaded or warehouseFloor[self.x][self.y + 1][0] not in [1])):
+        if (self.x < COLUMN_COUNT - 1 and warehouseFloor[self.x + 1][self.y][0] not in [3]):
             warehouseFloor[self.x][self.y][1] = 0  
             self.x = self.x + 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded
@@ -153,9 +153,9 @@ class GameWindow():
                             self.action(3)
                         if event.key == pygame.K_RIGHT:
                             self.action(4)
-                        if event.key == pygame.K_DOWN:
-                            self.action(2)
                         if event.key == pygame.K_UP:
+                            self.action(2)
+                        if event.key == pygame.K_DOWN:
                             self.action(1)
                         if event.key == pygame.K_SPACE:
                             self.action(0)
