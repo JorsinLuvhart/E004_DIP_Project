@@ -226,8 +226,14 @@ class GameWindow():
         return ret
 
     def view1(self):
-
-        self.dis.fill((255, 255, 255))
+        WHITE = (0,0,0)
+        self.dis.fill((0, 255, 255))
+        blockSize = 80 #Set the size of the grid block
+        for x in range(SCREEN_WIDTH):
+            for y in range(SCREEN_HEIGHT):
+                rect = pygame.Rect(x*blockSize, y*blockSize,
+                                blockSize, blockSize)
+                pygame.draw.rect(self.dis, WHITE, rect, 1)
         for robot in self.robotList:
             self.dis.blit(robot.image, (robot.x * 80, robot.y * 80))
         for desti in self.destiList:
