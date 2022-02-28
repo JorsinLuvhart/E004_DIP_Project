@@ -10,4 +10,11 @@ run the following in terminal
 
     poetry install 
     poetry create
-    poetry run python main.py
+    poetry run python <python file that you want to run>
+    
+If trying to open jupyter notebook
+
+    poetry run jupyter notebook
+ 
+    
+  
