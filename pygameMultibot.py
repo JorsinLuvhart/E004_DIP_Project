@@ -30,25 +30,25 @@ class Robot():
         if (self.y < ROW_COUNT - 1 and warehouseFloor[self.x][self.y + 1][0] not in [3]):
             warehouseFloor[self.x][self.y][1] = 0  
             self.y = self.y + 1
-            warehouseFloor[self.x][self.y+1][1] = self.id + self.loaded  
+            warehouseFloor[self.x][self.y][1] = self.id + self.loaded  
 
     def move_down(self, warehouseFloor):
         if (self.y > 0 and warehouseFloor[self.x][self.y - 1][0] not in [3]):
             warehouseFloor[self.x][self.y][1] = 0  
             self.y = self.y - 1
-            warehouseFloor[self.x][self.y-1][1] = self.id + self.loaded
+            warehouseFloor[self.x][self.y][1] = self.id + self.loaded
 
     def move_left(self, warehouseFloor):
         if (self.x > 0 and warehouseFloor[self.x - 1][self.y][0] not in [3]):
             warehouseFloor[self.x][self.y][1] = 0  
             self.x = self.x - 1
-            warehouseFloor[self.x-1][self.y][1] = self.id + self.loaded
+            warehouseFloor[self.x][self.y][1] = self.id + self.loaded
 
     def move_right(self, warehouseFloor):
         if (self.x < COLUMN_COUNT - 1 and warehouseFloor[self.x + 1][self.y][0] not in [3]):
             warehouseFloor[self.x][self.y][1] = 0  
             self.x = self.x + 1
-            warehouseFloor[self.x+1][self.y][1] = self.id + self.loaded
+            warehouseFloor[self.x][self.y][1] = self.id + self.loaded
               
 
 
