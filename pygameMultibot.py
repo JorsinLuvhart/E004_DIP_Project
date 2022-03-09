@@ -29,25 +29,25 @@ class Robot():
         warehouseFloor[self.x][self.y][1] = 1 + rbtCount*2 + self.loaded
 
     def move_down(self, warehouseFloor):
-        if (self.y < ROW_COUNT - 1 and warehouseFloor[self.x][self.y + 1][0] > 2 and (not self.loaded or warehouseFloor[self.x][self.y + 1][0] not in [1])):
+        if (self.y < ROW_COUNT - 1 and warehouseFloor[self.x][self.y + 1][0] <3 and (not self.loaded or warehouseFloor[self.x][self.y + 1][0] not in [1])):
             warehouseFloor[self.x][self.y][1] = 0  
             self.y = self.y + 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded  
 
     def move_up(self, warehouseFloor):
-        if (self.y > 0 and warehouseFloor[self.x][self.y - 1][0] > 2 and (not self.loaded or warehouseFloor[self.x][self.y-1][0] not in [1])):
+        if (self.y > 0 and warehouseFloor[self.x][self.y - 1][0] <3 and (not self.loaded or warehouseFloor[self.x][self.y-1][0] not in [1])):
             warehouseFloor[self.x][self.y][1] = 0  
             self.y = self.y - 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded
 
     def move_left(self, warehouseFloor):
-        if (self.x > 0 and warehouseFloor[self.x - 1][self.y][0] > 2 and (not self.loaded or warehouseFloor[self.x-1][self.y][0] not in [1])):
+        if (self.x > 0 and warehouseFloor[self.x - 1][self.y][0] <3 and (not self.loaded or warehouseFloor[self.x-1][self.y][0] not in [1])):
             warehouseFloor[self.x][self.y][1] = 0  
             self.x = self.x - 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded
 
     def move_right(self, warehouseFloor):
-        if (self.x < COLUMN_COUNT - 1 and warehouseFloor[self.x + 1][self.y][0] > 2 and (not self.loaded or warehouseFloor[self.x+1][self.y][0] not in [1])):
+        if (self.x < COLUMN_COUNT - 1 and warehouseFloor[self.x + 1][self.y][0] <3 and (not self.loaded or warehouseFloor[self.x+1][self.y][0] not in [1])):
             warehouseFloor[self.x][self.y][1] = 0  
             self.x = self.x + 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded
