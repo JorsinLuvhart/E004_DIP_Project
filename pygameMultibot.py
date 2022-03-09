@@ -236,24 +236,30 @@ class GameWindow():
         window.geometry('1600x900')
         combo = Combobox(window)
         combo1 = Combobox(window)
-        lbl = Label(window, text="Status: \n\n Robot 1: \n\n Robot 2: \n\n Robot 3: \n\n")
+
+        def click():
+            lbl.configure(text="Parcel is at XXX")
+        def click1():
+            lbl.configure(text="Parcel delivered at XXX")
+
+        lbl = Label(window, text="Status: \n\n Robot 1: \n\n Robot 2: \n\n Robot 3: \n\n", font=("Arial Bold", 10))
         lbl.grid(column=0, row=0)
 
-        lbl1 = Label(window, text="Parameters: \n No. of parcel:\n")
+        lbl1 = Label(window, text="Parameters: \n No. of parcel:\n", font=("Arial Bold", 10))
         lbl1.grid(column=1500, row=0)
-        btn = Button(window, text="Parcel details")
-        btn.grid(column=1500, row=5)
-        lbl1 = Label(window, text="No. of destination:.")
-        lbl1.grid(column=1500, row=10)
-        btn = Button(window, text="Destination details")
-        btn.grid(column=1500, row=15)
-
+        btn = Button(window, text="Parcel details", command=click)
+        btn.grid(column=1500, row=2)
         combo['values'] = (1, 2, 3, 4, 5)
         combo.current(1)  # set the selected item
         combo.grid(column=1500, row=1)
+
+        lbl1 = Label(window, text="No. of destination:.", font=("Arial Bold", 10))
+        lbl1.grid(column=1500, row=5)
+        btn1 = Button(window, text="Destination details", command=click1)
+        btn1.grid(column=1500, row=7)
         combo1['values'] = (1, 2, 3, 4, 5)
         combo1.current(1)  # set the selected item
-        combo1.grid(column=1500, row=11)
+        combo1.grid(column=1500, row=6)
 
 
         WHITE = (0,0,0)
