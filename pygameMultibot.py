@@ -27,25 +27,25 @@ class Robot():
         warehouseFloor[self.x][self.y][1] = 1 + rbtCount*2 + self.loaded
 
     def move_down(self, warehouseFloor):
-        if (self.y < ROW_COUNT - 1 and warehouseFloor[self.x][self.y + 1][0] not in [3] and (not self.loaded or warehouseFloor[self.x][self.y + 1][0] not in [1])):
+        if (self.y < ROW_COUNT - 1 and warehouseFloor[self.x][self.y + 1][0] > 2 and (not self.loaded or warehouseFloor[self.x][self.y + 1][0] not in [1])):
             warehouseFloor[self.x][self.y][1] = 0  
             self.y = self.y + 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded  
 
     def move_up(self, warehouseFloor):
-        if (self.y > 0 and warehouseFloor[self.x][self.y - 1][0] not in [3] and (not self.loaded or warehouseFloor[self.x][self.y-1][0] not in [1])):
+        if (self.y > 0 and warehouseFloor[self.x][self.y - 1][0] > 2 and (not self.loaded or warehouseFloor[self.x][self.y-1][0] not in [1])):
             warehouseFloor[self.x][self.y][1] = 0  
             self.y = self.y - 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded
 
     def move_left(self, warehouseFloor):
-        if (self.x > 0 and warehouseFloor[self.x - 1][self.y][0] not in [3] and (not self.loaded or warehouseFloor[self.x-1][self.y][0] not in [1])):
+        if (self.x > 0 and warehouseFloor[self.x - 1][self.y][0] > 2 and (not self.loaded or warehouseFloor[self.x-1][self.y][0] not in [1])):
             warehouseFloor[self.x][self.y][1] = 0  
             self.x = self.x - 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded
 
     def move_right(self, warehouseFloor):
-        if (self.x < COLUMN_COUNT - 1 and warehouseFloor[self.x + 1][self.y][0] not in [3] and (not self.loaded or warehouseFloor[self.x+1][self.y][0] not in [1])):
+        if (self.x < COLUMN_COUNT - 1 and warehouseFloor[self.x + 1][self.y][0] > 2 and (not self.loaded or warehouseFloor[self.x+1][self.y][0] not in [1])):
             warehouseFloor[self.x][self.y][1] = 0  
             self.x = self.x + 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded
@@ -269,12 +269,12 @@ class GameWindow():
     def view1(self):
         WHITE = (0,0,0)
         self.dis.fill((0, 255, 255))
-        blockSize = 80 #Set the size of the grid block
-        for x in range(SCREEN_WIDTH):
-            for y in range(SCREEN_HEIGHT):
-                rect = pygame.Rect(x*blockSize, y*blockSize,
-                                blockSize, blockSize)
-                pygame.draw.rect(self.dis, WHITE, rect, 1)
+        #blockSize = 80 #Set the size of the grid block
+        #for x in range(SCREEN_WIDTH):
+        #    for y in range(SCREEN_HEIGHT):
+        #        rect = pygame.Rect(x*blockSize, y*blockSize,
+        #                        blockSize, blockSize)
+        #        pygame.draw.rect(self.dis, WHITE, rect, 1)
         for robot in self.robotList:
             self.dis.blit(robot.image, (robot.x * 80, robot.y * 80))
         for desti in self.destiList:
