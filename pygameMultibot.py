@@ -49,7 +49,6 @@ class Robot():
             warehouseFloor[self.x][self.y][1] = 0  
             self.x = self.x + 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded
-              
 
 
 class Parcel():
@@ -91,6 +90,27 @@ class Boulder():
         self.image = pygame.image.load(r"Resources/boulder.png")
         warehouseFloor[self.x][self.y][0] = 3
 
+
+class Human():
+    def __init__(self, warehouseFloor, x, y):
+        self.x = x
+        self.y = y
+        #Place holder code
+        self.image = pygame.image.load(r"Resources/person.png")
+        warehouseFloor[self.x][self.y][0] = 4
+
+    def randMov(self, warehouseFloor):
+      choice = random.randint(0, 2)
+      if choice%3 == 0: #move left
+        if (self.x > 0 and warehouseFloor[self.x - 1][self.y][0] == 0 and warehouseFloor[self.x - 1][self.y][1] == 0):
+            warehouseFloor[self.x][self.y][0] = 0  
+            self.x = self.x - 1
+            warehouseFloor[self.x][self.y][0] = 4 
+      elif choice%3 == 1: #move right
+        if (self.x < COLUMN_COUNT - 1 and warehouseFloor[self.x + 1][self.y][0] == 0 and warehouseFloor[self.x + 1][self.y][1] == 0):
+            warehouseFloor[self.x][self.y][0] = 0  
+            self.x = self.x + 1
+            warehouseFloor[self.x][self.y][0] = 4
 
 class GameWindow():
 
@@ -145,6 +165,11 @@ class GameWindow():
         for boulder in boulderCor:
             self.boulderList.append(Boulder(self.warehouseFloor, boulder[0], boulder[1]))
 
+        self.humanList = []
+        humanCor = [[1,3]]
+        for human in humanCor:
+            self.humanList.append(Human(self.warehouseFloor, human[0], human[1]))
+
         if manualControl:
             while True:
                 for event in pygame.event.get():
@@ -183,6 +208,9 @@ class GameWindow():
     def action(self, action):
         self.stepnum += 1
 
+        for human in self.humanList:
+          human.randMov(self.warehouseFloor)
+        
         for robot in self.robotList:
           if action % 5 == 0:
             pass
@@ -242,6 +270,8 @@ class GameWindow():
             self.dis.blit(parcel.image, (parcel.x * 80, parcel.y * 80))
         for boulder in self.boulderList:
             self.dis.blit(boulder.image, (boulder.x * 80, boulder.y * 80))
+        for human in self.humanList:
+            self.dis.blit(human.image, (human.x * 80, human.y * 80))
         pygame.display.update()
 
-#a=GameWindow(1,2)
+#GameWindow(1,2)
