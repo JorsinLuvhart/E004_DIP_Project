@@ -178,14 +178,14 @@ class GameWindow():
         #                   [5, 7], [8, 2], [7, 5]]
         # self.parcelCor = [[2, 2], [5, 3], [2, 5], [6, 2], [6, 4], [3, 3], [2, 1], [1, 6],[7,7],[2, 2], [5, 3], [2, 5], [6, 2], [6, 4], [3, 3], [2, 1], [1, 6],[7,7],[6,3],[5,6],[8,4],[7,3],[6,3],[5,7],[8,2],[7,5],[7,7],[6,3],[5,6],[8,4],[7,3],[6,3],[5,7],[8,2],[7,5]]
         # self.parcelCor = [[2, 2], [5, 3], [2, 5], [6, 2], [6, 4], [3, 3]]
-        self.parcelCor = [[3, 2], [4, 2], [5, 2], [6, 2], [7, 2], [3, 4], [4, 4], [5, 4], [6, 4], [7, 4], [3, 6], [4, 6], [5, 6], [6, 6], [7, 6]]
+        self.parcelCor = [[3, 1], [4, 1], [5, 1], [6, 1], [7, 1], [3, 3], [4, 3], [5, 3], [6, 3], [7, 3], [3, 5], [4, 5], [5, 5], [6, 5], [7, 5]]
         for i in range(parcelNum):
             self.parcelList.append(Parcel(self.warehouseFloor, self.parcelCor[i][0], self.parcelCor[i][1]))
             self.collected += 1
 
         self.boulderList = []
         # boulderCor=[]
-        boulderCor = [[0, 8], [1, 8], [2, 8], [3, 8], [7, 8], [8, 8], [9, 8], [10, 8]]
+        boulderCor = [[0, 7], [1, 7], [2, 7], [3, 7], [7, 7], [8, 7], [9, 7], [10, 7]]
         for boulder in boulderCor:
             self.boulderList.append(Boulder(self.warehouseFloor, boulder[0], boulder[1]))
 
