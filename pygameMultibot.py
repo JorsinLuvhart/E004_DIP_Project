@@ -95,7 +95,7 @@ class Human():
     def __init__(self, warehouseFloor, x, y):
         self.x = x
         self.y = y
-        #Place holder code
+        self.direction = 1 #1 is right side -1 is left
         self.image = pygame.image.load(r"Resources/person.png")
         warehouseFloor[self.x][self.y][0] = 4
 
@@ -111,6 +111,19 @@ class Human():
             warehouseFloor[self.x][self.y][0] = 0  
             self.x = self.x + 1
             warehouseFloor[self.x][self.y][0] = 4
+
+    def movTilCol(self, warehouseFloor):
+      if (self.x > 0 and warehouseFloor[self.x+self.direction][self.y][0] == 0 and warehouseFloor[self.x+self.direction][self.y][1] == 0):
+        warehouseFloor[self.x][self.y][0] = 0
+        self.x = self.x + self.direction
+        warehouseFloor[self.x][self.y][0] = 4
+      else:
+        self.direction = self.direction * -1
+        if (self.x > 0 and warehouseFloor[self.x+self.direction][self.y][0] == 0 and warehouseFloor[self.x+self.direction][self.y][1] == 0):
+          warehouseFloor[self.x][self.y][0] = 0
+          self.x = self.x + self.direction
+          warehouseFloor[self.x][self.y][0] = 4
+        
 
 class GameWindow():
 
@@ -209,7 +222,7 @@ class GameWindow():
         self.stepnum += 1
 
         for human in self.humanList:
-          human.randMov(self.warehouseFloor)
+          human.movTilCol(self.warehouseFloor)
         
         for robot in self.robotList:
           if action % 5 == 0:
