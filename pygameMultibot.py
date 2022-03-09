@@ -8,7 +8,7 @@ print("Python version " + sys.version)
 SCREEN_WIDTH = 880
 SCREEN_HEIGHT = 880
 GRID_SIZE = 80  # please only divide/multiply this by 2s
-#MARGIN = 2
+#MARGIN = 2 
 SCALE = GRID_SIZE / 80
 #BOX_LENGTH = GRID_SIZE - MARGIN
 COLUMN_COUNT = int(SCREEN_WIDTH / (GRID_SIZE))
@@ -160,14 +160,14 @@ class GameWindow():
 
         # robot sprite
         self.robotList = []
-        self.robotCor = [[0, 0], [8, 0]]
+        self.robotCor = [[0, 0], [5, 0], [10, 0]]
         for robot in self.robotCor:
             self.robotList.append(Robot(self.warehouseFloor, robot[0], robot[1],len(self.robotList)))
 
         # destination sprite
         self.destiList = []
         # self.destiCor=[[8,8]]
-        self.destiCor = [[8, 8], [0, 8]]
+        self.destiCor = [[3, 10], [4, 10], [5, 10], [6, 10], [7,10]]
         for desti in self.destiCor:
             self.destiList.append(Destination(self.warehouseFloor, desti[0], desti[1]))
 
@@ -177,19 +177,20 @@ class GameWindow():
         #                   [8, 2], [7, 5], [7, 7], [6, 3], [5, 6], [8, 4], [7, 7],[5, 3], [6, 2], [6, 4], [7, 3], [6, 3],
         #                   [5, 7], [8, 2], [7, 5]]
         # self.parcelCor = [[2, 2], [5, 3], [2, 5], [6, 2], [6, 4], [3, 3], [2, 1], [1, 6],[7,7],[2, 2], [5, 3], [2, 5], [6, 2], [6, 4], [3, 3], [2, 1], [1, 6],[7,7],[6,3],[5,6],[8,4],[7,3],[6,3],[5,7],[8,2],[7,5],[7,7],[6,3],[5,6],[8,4],[7,3],[6,3],[5,7],[8,2],[7,5]]
-        self.parcelCor = [[2, 2], [5, 3], [2, 5], [6, 2], [6, 4], [3, 3]]
+        # self.parcelCor = [[2, 2], [5, 3], [2, 5], [6, 2], [6, 4], [3, 3]]
+        self.parcelCor = [[3, 2], [4, 2], [5, 2], [6, 2], [7, 2], [3, 4], [4, 4], [5, 4], [6, 4], [7, 4], [3, 6], [4, 6], [5, 6], [6, 6], [7, 6]]
         for i in range(parcelNum):
             self.parcelList.append(Parcel(self.warehouseFloor, self.parcelCor[i][0], self.parcelCor[i][1]))
             self.collected += 1
 
         self.boulderList = []
         # boulderCor=[]
-        boulderCor = [[4, 6], [4, 5], [4, 4]]
+        boulderCor = [[0, 8], [1, 8], [2, 8], [3, 8], [7, 8], [8, 8], [9, 8], [10, 8]]
         for boulder in boulderCor:
             self.boulderList.append(Boulder(self.warehouseFloor, boulder[0], boulder[1]))
 
         self.humanList = []
-        humanCor = [[1,3]]
+        humanCor = [[5, 9]]
         for human in humanCor:
             self.humanList.append(Human(self.warehouseFloor, human[0], human[1]))
 
@@ -280,11 +281,11 @@ class GameWindow():
         WHITE = (0,0,0)
         self.dis.fill((0, 255, 255))
         blockSize = GRID_SIZE #Set the size of the grid block
-        for x in range(SCREEN_WIDTH):
-           for y in range(SCREEN_HEIGHT):
-               rect = pygame.Rect(x*blockSize, y*blockSize,
-                               blockSize, blockSize)
-               pygame.draw.rect(self.dis, WHITE, rect, 1)
+        # for x in range(SCREEN_WIDTH):
+        #    for y in range(SCREEN_HEIGHT):
+        #        rect = pygame.Rect(x*blockSize, y*blockSize,
+        #                        blockSize, blockSize)
+        #        pygame.draw.rect(self.dis, WHITE, rect, 1)
         for robot in self.robotList:
             self.dis.blit(robot.image, (robot.x * GRID_SIZE, robot.y * GRID_SIZE))
         for desti in self.destiList:
@@ -297,4 +298,4 @@ class GameWindow():
             self.dis.blit(human.image, (human.x * GRID_SIZE, human.y * GRID_SIZE))
         pygame.display.update()
 
-GameWindow(1,2)
+#GameWindow(1,2)
