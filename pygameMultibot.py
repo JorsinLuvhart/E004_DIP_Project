@@ -113,13 +113,13 @@ class Human():
             warehouseFloor[self.x][self.y][0] = 4
 
     def movTilCol(self, warehouseFloor):
-      if (self.x > 0 and warehouseFloor[self.x+self.direction][self.y][0] == 0 and warehouseFloor[self.x+self.direction][self.y][1] == 0):
+      if (self.x+self.direction >= 0 and self.x+self.direction < COLUMN_COUNT and warehouseFloor[self.x+self.direction][self.y][0] == 0 and warehouseFloor[self.x+self.direction][self.y][1] == 0):
         warehouseFloor[self.x][self.y][0] = 0
         self.x = self.x + self.direction
         warehouseFloor[self.x][self.y][0] = 4
       else:
         self.direction = self.direction * -1
-        if (self.x > 0 and warehouseFloor[self.x+self.direction][self.y][0] == 0 and warehouseFloor[self.x+self.direction][self.y][1] == 0):
+        if (self.x+self.direction >= 0 and self.x+self.direction < COLUMN_COUNT and warehouseFloor[self.x+self.direction][self.y][0] == 0 and warehouseFloor[self.x+self.direction][self.y][1] == 0):
           warehouseFloor[self.x][self.y][0] = 0
           self.x = self.x + self.direction
           warehouseFloor[self.x][self.y][0] = 4
