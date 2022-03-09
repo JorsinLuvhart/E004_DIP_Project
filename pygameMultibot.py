@@ -7,13 +7,13 @@ print("Python version " + sys.version)
 
 SCREEN_WIDTH = 720
 SCREEN_HEIGHT = 720
-GRID_SIZE = 80  # please only divide/multiply this by 2s
-MARGIN = 2
+GRID_SIZE = 20  # please only divide/multiply this by 2s
+#MARGIN = 2
 SCALE = GRID_SIZE / 80
-BOX_LENGTH = GRID_SIZE - MARGIN
+#BOX_LENGTH = GRID_SIZE - MARGIN
 COLUMN_COUNT = int(SCREEN_WIDTH / (GRID_SIZE))
 ROW_COUNT = int(SCREEN_HEIGHT / (GRID_SIZE))
-SCREEN_TITLE = "Cooperative Bots Design"
+#SCREEN_TITLE = "Cooperative Bots Design"
 
 
 # warehouse floor, 0=blank space, 1=robot, 2=parcel, 3=destination
@@ -23,6 +23,8 @@ class Robot():
         self.y = y
         self.loaded = 0
         self.image = pygame.image.load(r"Resources/loader.png")
+        width, height = self.image.get_width(), self.image.get_height()  # get size of image
+        self.image = pygame.transform.scale(self.image, (width*SCALE, height*SCALE))
         self.id = 1 + rbtCount*2
         warehouseFloor[self.x][self.y][1] = 1 + rbtCount*2 + self.loaded
 
@@ -61,6 +63,8 @@ class Parcel():
         #   self.x = random.randint(0, COLUMN_COUNT-1)
         #   self.y = random.randint(0, ROW_COUNT-1)
         self.image = pygame.image.load(r"Resources/package.png")
+        width, height = self.image.get_width(), self.image.get_height()  # get size of image
+        self.image = pygame.transform.scale(self.image, (width*SCALE, height*SCALE))
         warehouseFloor[self.x][self.y][0] = 1
 
 
@@ -74,6 +78,8 @@ class Destination():
         self.x = x
         self.y = y
         self.image = pygame.image.load(r"Resources/warehouse.png")
+        width, height = self.image.get_width(), self.image.get_height()  # get size of image
+        self.image = pygame.transform.scale(self.image, (width*SCALE, height*SCALE))
         warehouseFloor[self.x][self.y][0] = 2
 
 
@@ -88,6 +94,8 @@ class Boulder():
         self.x = x
         self.y = y
         self.image = pygame.image.load(r"Resources/boulder.png")
+        width, height = self.image.get_width(), self.image.get_height()  # get size of image
+        self.image = pygame.transform.scale(self.image, (width*SCALE, height*SCALE))
         warehouseFloor[self.x][self.y][0] = 3
 
 
@@ -97,6 +105,8 @@ class Human():
         self.y = y
         self.direction = 1 #1 is right side -1 is left
         self.image = pygame.image.load(r"Resources/person.png")
+        width, height = self.image.get_width(), self.image.get_height()  # get size of image
+        self.image = pygame.transform.scale(self.image, (width*SCALE, height*SCALE))
         warehouseFloor[self.x][self.y][0] = 4
 
     def randMov(self, warehouseFloor):
@@ -269,22 +279,22 @@ class GameWindow():
     def view1(self):
         WHITE = (0,0,0)
         self.dis.fill((0, 255, 255))
-        #blockSize = 80 #Set the size of the grid block
-        #for x in range(SCREEN_WIDTH):
-        #    for y in range(SCREEN_HEIGHT):
-        #        rect = pygame.Rect(x*blockSize, y*blockSize,
-        #                        blockSize, blockSize)
-        #        pygame.draw.rect(self.dis, WHITE, rect, 1)
+        blockSize = GRID_SIZE #Set the size of the grid block
+        for x in range(SCREEN_WIDTH):
+           for y in range(SCREEN_HEIGHT):
+               rect = pygame.Rect(x*blockSize, y*blockSize,
+                               blockSize, blockSize)
+               pygame.draw.rect(self.dis, WHITE, rect, 1)
         for robot in self.robotList:
-            self.dis.blit(robot.image, (robot.x * 80, robot.y * 80))
+            self.dis.blit(robot.image, (robot.x * GRID_SIZE, robot.y * GRID_SIZE))
         for desti in self.destiList:
-            self.dis.blit(desti.image, (desti.x * 80, desti.y * 80))
+            self.dis.blit(desti.image, (desti.x * GRID_SIZE, desti.y * GRID_SIZE))
         for parcel in self.parcelList:
-            self.dis.blit(parcel.image, (parcel.x * 80, parcel.y * 80))
+            self.dis.blit(parcel.image, (parcel.x * GRID_SIZE, parcel.y * GRID_SIZE))
         for boulder in self.boulderList:
-            self.dis.blit(boulder.image, (boulder.x * 80, boulder.y * 80))
+            self.dis.blit(boulder.image, (boulder.x * GRID_SIZE, boulder.y * GRID_SIZE))
         for human in self.humanList:
-            self.dis.blit(human.image, (human.x * 80, human.y * 80))
+            self.dis.blit(human.image, (human.x * GRID_SIZE, human.y * GRID_SIZE))
         pygame.display.update()
 
-#GameWindow(1,2)
+GameWindow(1,2)
