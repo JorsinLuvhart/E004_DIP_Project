@@ -5,9 +5,9 @@ import random
 
 print("Python version " + sys.version)
 
-SCREEN_WIDTH = 720
-SCREEN_HEIGHT = 720
-GRID_SIZE = 20  # please only divide/multiply this by 2s
+SCREEN_WIDTH = 880
+SCREEN_HEIGHT = 880
+GRID_SIZE = 80  # please only divide/multiply this by 2s
 #MARGIN = 2
 SCALE = GRID_SIZE / 80
 #BOX_LENGTH = GRID_SIZE - MARGIN
@@ -29,41 +29,25 @@ class Robot():
         warehouseFloor[self.x][self.y][1] = 1 + rbtCount*2 + self.loaded
 
     def move_down(self, warehouseFloor):
-<<<<<<< HEAD
         if (self.y < ROW_COUNT - 1 and warehouseFloor[self.x][self.y + 1][0] < 3 and (not self.loaded or warehouseFloor[self.x][self.y + 1][0] not in [1])):
-=======
-        if (self.y < ROW_COUNT - 1 and warehouseFloor[self.x][self.y + 1][0] <3 and (not self.loaded or warehouseFloor[self.x][self.y + 1][0] not in [1])):
->>>>>>> ca363393925fb0879cc3860ae2a5389c59dee099
             warehouseFloor[self.x][self.y][1] = 0  
             self.y = self.y + 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded  
 
     def move_up(self, warehouseFloor):
-<<<<<<< HEAD
         if (self.y > 0 and warehouseFloor[self.x][self.y - 1][0] < 3 and (not self.loaded or warehouseFloor[self.x][self.y-1][0] not in [1])):
-=======
-        if (self.y > 0 and warehouseFloor[self.x][self.y - 1][0] <3 and (not self.loaded or warehouseFloor[self.x][self.y-1][0] not in [1])):
->>>>>>> ca363393925fb0879cc3860ae2a5389c59dee099
             warehouseFloor[self.x][self.y][1] = 0  
             self.y = self.y - 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded
 
     def move_left(self, warehouseFloor):
-<<<<<<< HEAD
         if (self.x > 0 and warehouseFloor[self.x - 1][self.y][0] < 3 and (not self.loaded or warehouseFloor[self.x-1][self.y][0] not in [1])):
-=======
-        if (self.x > 0 and warehouseFloor[self.x - 1][self.y][0] <3 and (not self.loaded or warehouseFloor[self.x-1][self.y][0] not in [1])):
->>>>>>> ca363393925fb0879cc3860ae2a5389c59dee099
             warehouseFloor[self.x][self.y][1] = 0  
             self.x = self.x - 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded
 
     def move_right(self, warehouseFloor):
-<<<<<<< HEAD
         if (self.x < COLUMN_COUNT - 1 and warehouseFloor[self.x + 1][self.y][0] < 3 and (not self.loaded or warehouseFloor[self.x+1][self.y][0] not in [1])):
-=======
-        if (self.x < COLUMN_COUNT - 1 and warehouseFloor[self.x + 1][self.y][0] <3 and (not self.loaded or warehouseFloor[self.x+1][self.y][0] not in [1])):
->>>>>>> ca363393925fb0879cc3860ae2a5389c59dee099
             warehouseFloor[self.x][self.y][1] = 0  
             self.x = self.x + 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded
@@ -200,7 +184,7 @@ class GameWindow():
 
         self.boulderList = []
         # boulderCor=[]
-        boulderCor = [[4, 6], [4, 5],[4, 4]]
+        boulderCor = [[4, 6], [4, 5], [4, 4]]
         for boulder in boulderCor:
             self.boulderList.append(Boulder(self.warehouseFloor, boulder[0], boulder[1]))
 
