@@ -5,7 +5,10 @@ import random
 import tkinter as tk
 from tkinter import *
 from tkinter.ttk import *
-
+import platform
+import pygame
+import PySimpleGUI as pg
+import os
 print("Python version " + sys.version)
 
 SCREEN_WIDTH = 720
@@ -164,6 +167,7 @@ class GameWindow():
                             self.action(0)
                         print(self.evaluate())
                 self.view1()
+                self.view2()
 
     def printWHF(self):
       print(self.warehouseFloor[:][:][0])
@@ -230,36 +234,36 @@ class GameWindow():
 
     def view1(self):
 
-        window = Tk()
+        #window = Tk()
 
-        window.title("Cooperative Bots Design")
-        window.geometry('1600x900')
-        combo = Combobox(window)
-        combo1 = Combobox(window)
+        #window.title("Cooperative Bots Design")
+        #window.geometry('1600x900')
+        #combo = Combobox(window)
+        #combo1 = Combobox(window)
 
-        def click():
-            lbl.configure(text="Parcel is at XXX")
-        def click1():
-            lbl.configure(text="Parcel delivered at XXX")
+        #def click():
+            #lbl.configure(text="Parcel is at XXX")
+        #def click1():
+            #lbl.configure(text="Parcel delivered at XXX")
 
-        lbl = Label(window, text="Status: \n\n Robot 1: \n\n Robot 2: \n\n Robot 3: \n\n", font=("Arial Bold", 10))
-        lbl.grid(column=0, row=0)
+        #lbl = Label(window, text="Status: \n\n Robot 1: \n\n Robot 2: \n\n Robot 3: \n\n", font=("Arial Bold", 10))
+        #lbl.grid(column=0, row=0)
 
-        lbl1 = Label(window, text="Parameters: \n No. of parcel:\n", font=("Arial Bold", 10))
-        lbl1.grid(column=1500, row=0)
-        btn = Button(window, text="Parcel details", command=click)
-        btn.grid(column=1500, row=2)
-        combo['values'] = (1, 2, 3, 4, 5)
-        combo.current(1)  # set the selected item
-        combo.grid(column=1500, row=1)
+        #lbl1 = Label(window, text="Parameters: \n No. of parcel:\n", font=("Arial Bold", 10))
+        #lbl1.grid(column=1500, row=0)
+        #btn = Button(window, text="Parcel details", command=click)
+        #btn.grid(column=1500, row=2)
+        #combo['values'] = (1, 2, 3, 4, 5)
+        #combo.current(1)  # set the selected item
+        #combo.grid(column=1500, row=1)
 
-        lbl1 = Label(window, text="No. of destination:.", font=("Arial Bold", 10))
-        lbl1.grid(column=1500, row=5)
-        btn1 = Button(window, text="Destination details", command=click1)
-        btn1.grid(column=1500, row=7)
-        combo1['values'] = (1, 2, 3, 4, 5)
-        combo1.current(1)  # set the selected item
-        combo1.grid(column=1500, row=6)
+        #lbl1 = Label(window, text="No. of destination:.", font=("Arial Bold", 10))
+        #lbl1.grid(column=1500, row=5)
+        #btn1 = Button(window, text="Destination details", command=click1)
+        #btn1.grid(column=1500, row=7)
+        #combo1['values'] = (1, 2, 3, 4, 5)
+        #combo1.current(1)  # set the selected item
+        #combo1.grid(column=1500, row=6)
 
 
         WHITE = (0,0,0)
@@ -279,8 +283,87 @@ class GameWindow():
         for boulder in self.boulderList:
             self.dis.blit(boulder.image, (boulder.x * 80, boulder.y * 80))
         pygame.display.update()
-        window.mainloop()
+        #window.mainloop()
 
+    def view2(self):
+        # set theme
+        pg.theme("default1")
+
+        #create the layout
+        layout = [
+            [
+                pg.Text("Status of Robot: ", size=(10, 10)),
+                pg.OptionMenu(values = ("Robot 1", "Robot 2", "Robot 3"), size = (20,1)), pg.Text("1", size=(8,1))
+                #pg.Checkbox("Robot 1", "1.00"),
+                #pg.Checkbox("Robot 2", "2.00"),
+                #pg.Checkbox("Robot 3", "3.00"),
+                
+            ],
+            [
+                pg.Text("Number of Parcels: ",  size = (10, 10)),
+                pg.OptionMenu(values = ("1", "2", "3"), size = (20, 1)), pg.Text("1", size = (8, 1))
+                #pg.Radio("1", "1"),
+                #pg.Radio("2", "2"),
+                #pg.Radio("3", "3"),
+                
+            ],
+            [
+                pg.Text("Number of destination: ", size = (10, 10)),
+                pg.OptionMenu(values = ("1", "2", "3"), size = (20, 1)), pg.Text("1", size = (8, 1))
+                #pg.Radio("1", "1.0"),
+                #pg.Radio("2", "2.0"),
+                #pg.Radio("3", "3.0"),
+                
+            ],
+            [
+                pg.Button('Start', button_color=('white', 'black'), key='Start'),      
+                pg.Button('Stop', button_color=('white', 'black'), key='Stop'),      
+                pg.Button('Reset', button_color=('white', 'firebrick3'), key='Reset'),      
+                pg.Button('Submit', button_color=('white', 'springgreen4'), key='Submit')
+            ]
+
+        ]
+        
+        # Create Window
+        # Blue = (0,0,200)
+        window = pg.Window("Cooperative Bots Design", layout, default_element_size=(12,1), text_justification='r', auto_size_text=False, auto_size_buttons=False, default_button_element_size=(12,1), finalize=True)
+
+        window['Stop'].update(disabled=True)      
+        window['Reset'].update(disabled=True)      
+        window['Submit'].update(disabled=True)      
+        recording = have_data = False
+        # Event Loop
+
+        while True:      
+            event, values = window.read()      
+            print(event)      
+            if event == pg.WIN_CLOSED:
+                exit(69)      
+            if event == 'Start':      
+                window['Start'].update(disabled=True)      
+                window['Stop'].update(disabled=False)      
+                window['Reset'].update(disabled=False)      
+                window['Submit'].update(disabled=True)      
+                recording = True      
+            elif event == 'Stop'  and recording:      
+                window['Stop'].update(disabled=True)      
+                window['Start'].update(disabled=False)      
+                window['Submit'].update(disabled=False)      
+                recording = False      
+                have_data = True      
+            elif event == 'Reset':      
+                window['Stop'].update(disabled=True)      
+                window['Start'].update(disabled=False)      
+                window['Submit'].update(disabled=True)      
+                window['Reset'].update(disabled=False)      
+                recording = False      
+                have_data = False      
+            elif event == 'Submit'  and have_data:      
+                window['Stop'].update(disabled=True)      
+                window['Start'].update(disabled=False)      
+                window['Submit'].update(disabled=True)      
+                window['Reset'].update(disabled=False)      
+                recording = False     
 
 
 GameWindow(1,2)
