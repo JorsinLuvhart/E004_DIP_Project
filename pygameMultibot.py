@@ -229,30 +229,31 @@ class GameWindow():
         # print("Dep")
         robot.loaded = 0
 
-    def action(self, action):
+        def action(self, action):
         self.stepnum += 1
 
         for human in self.humanList:
           human.movTilCol(self.warehouseFloor)
         
         for robot in self.robotList:
-          if action % 5 == 0:
-            pass
-          elif action % 5 == 1:
+          if action % 4 == 0:
             robot.move_up(self.warehouseFloor)
-          elif action % 5 == 2:
+          elif action % 4 == 1:
             robot.move_down(self.warehouseFloor)
-          elif action % 5 == 3:
+          elif action % 4 == 2:
             robot.move_left(self.warehouseFloor)
-          elif action % 5 == 4:
+          elif action % 4 == 3:
             robot.move_right(self.warehouseFloor)
-          action = action//5
+          action = action//4
 
     def evaluate(self):
         self.reward = 0
         for robot in self.robotList:
             if (self.warehouseFloor[robot.x][robot.y][0] == 1 and robot.loaded != 1):
                 self.collected += 1
+                robot.interval=0
+                # if robot==self.robotList[0]:
+                #     self.reward+=6
                 for parcel in self.parcelList:
                     if robot.x == parcel.x and robot.y == parcel.y:
                         self.parcelCol(parcel, robot)
@@ -260,11 +261,17 @@ class GameWindow():
                 self.reward += 1
             elif (self.warehouseFloor[robot.x][robot.y][0] == 2 and robot.loaded == 1):
                 self.parcelDep(robot)
+                robot.interval = 0
+                # if robot==self.robotList[0]:
+                #     self.reward+=6
                 self.reward += 1
             else:
-                self.reward -= 0.1
+                if robot.interval<70:
+                    robot.interval+=1
+                self.reward -= 0.005*robot.interval
 
         return self.reward
+
 
     def is_done(self):
         if self.stepnum == 1000:
