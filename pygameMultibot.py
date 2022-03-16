@@ -242,28 +242,37 @@ class GameWindow():
         #combo1 = Combobox(window)
 
         #def click():
-            #lbl.configure(text="Parcel is at XXX")
+            #lbl2.configure(text="Parcel is at XXX")
         #def click1():
-            #lbl.configure(text="Parcel delivered at XXX")
+            #lbl3.configure(text="Parcel delivered at XXX")
 
-        #lbl = Label(window, text="Status: \n\n Robot 1: \n\n Robot 2: \n\n Robot 3: \n\n", font=("Arial Bold", 10))
-        #lbl.grid(column=0, row=0)
+        #lblrobot1 = Label(window, text="Status: \n\nRobot 1:", font=("Arial Bold", 10))
+        #lblrobot1.place(x=1, y=1)
+        #lblrobot2 = Label(window, text="Robot 2:", font=("Arial Bold", 10))
+        #lblrobot2.place(x=1, y=200)
+        #lblrobot3 = Label(window, text="Robot 3:", font=("Arial Bold", 10))
+        #lblrobot3.place(x=1, y=300)
 
-        #lbl1 = Label(window, text="Parameters: \n No. of parcel:\n", font=("Arial Bold", 10))
-        #lbl1.grid(column=1500, row=0)
+        #lbl = Label(window, text="Parameters: \nNo. of parcel:\n", font=("Arial Bold", 10))
+        #lbl.place(x=1100, y=40)
         #btn = Button(window, text="Parcel details", command=click)
-        #btn.grid(column=1500, row=2)
+        #btn.place(x=1100, y=150)
         #combo['values'] = (1, 2, 3, 4, 5)
         #combo.current(1)  # set the selected item
-        #combo.grid(column=1500, row=1)
+        #combo.place(x=1100, y=100)
 
         #lbl1 = Label(window, text="No. of destination:.", font=("Arial Bold", 10))
-        #lbl1.grid(column=1500, row=5)
+        #lbl1.place(x=1100, y=340)
         #btn1 = Button(window, text="Destination details", command=click1)
-        #btn1.grid(column=1500, row=7)
+        #btn1.place(x=1100, y=450)
         #combo1['values'] = (1, 2, 3, 4, 5)
         #combo1.current(1)  # set the selected item
-        #combo1.grid(column=1500, row=6)
+        #combo1.place(x=1100, y=400)
+
+        #lbl2 = Label(window, font=("Arial Bold", 10))
+        #lbl2.place(x=1100, y=200)
+        #lbl3 = Label(window, font=("Arial Bold", 10))
+        #lbl3.place(x=1100, y=500)
 
 
         WHITE = (0,0,0)
