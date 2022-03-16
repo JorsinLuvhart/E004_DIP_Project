@@ -22,7 +22,7 @@ class Robot():
         self.x = x
         self.y = y
         self.loaded = 0
-        self.image = pygame.image.load(r"Resources/Roomba-bot.png")
+        self.image = pygame.image.load(r"Resources/robot-without-load.png")
 #        width, height = self.image.get_width(), self.image.get_height()  # get size of image
         self.image = pygame.transform.scale(self.image, (GRID_SIZE*SCALE, GRID_SIZE*SCALE))
         self.id = 1 + rbtCount*2
@@ -52,6 +52,7 @@ class Robot():
             warehouseFloor[self.x][self.y][1] = 0  
             self.x = self.x + 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded
+
 
 
 class Parcel():
@@ -215,7 +216,7 @@ class GameWindow():
       print(self.warehouseFloor[:][:][1])
 
     def parcelCol(self, parcel, robot):
-        # need to eventually figure out which is the collected parcel\
+        # need to eventually figure out which is the collected parcel
         # print("Col")
         robot.loaded = 1
         self.warehouseFloor[parcel.x][parcel.y][0] = 0
@@ -223,6 +224,7 @@ class GameWindow():
         del parcel
         self.parcelList.append(Parcel(self.warehouseFloor, self.parcelCor[self.collected % len(self.parcelCor)][0],
                                       self.parcelCor[self.collected % len(self.parcelCor)][1]))
+
 
     def parcelDep(self, robot):
         # print("Dep")
@@ -279,8 +281,8 @@ class GameWindow():
 
     def observe(self):
         ret = self.warehouseFloor.copy()
-        # for i in range(len(self.robotList)):
-        #     ret[self.robotList[i].x][self.robotList[i].y] = 4 + i * 2 + self.robotList[i].loaded
+        for i in range(len(self.robotList)):
+            ret[self.robotList[i].x][self.robotList[i].y] = 4 + i * 2 + self.robotList[i].loaded
         return ret
 
     def view1(self):
@@ -293,6 +295,10 @@ class GameWindow():
         #                        blockSize, blockSize)
         #        pygame.draw.rect(self.dis, WHITE, rect, 1)
         for robot in self.robotList:
+            if robot.loaded == 1:
+                robot.image = pygame.image.load(r"Resources/robot-with-load.png")
+            else:
+                robot.image = pygame.image.load(r"Resources/robot-without-load.png")
             self.dis.blit(robot.image, (robot.x * GRID_SIZE, robot.y * GRID_SIZE))
         for desti in self.destiList:
             self.dis.blit(desti.image, (desti.x * GRID_SIZE, desti.y * GRID_SIZE))
@@ -304,4 +310,4 @@ class GameWindow():
             self.dis.blit(human.image, (human.x * GRID_SIZE, human.y * GRID_SIZE))
         pygame.display.update()
 
-# GameWindow(1,2)
+GameWindow(1,2)
