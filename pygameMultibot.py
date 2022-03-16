@@ -27,6 +27,7 @@ class Robot():
         self.image = pygame.transform.scale(self.image, (width*SCALE, height*SCALE))
         self.id = 1 + rbtCount*2
         warehouseFloor[self.x][self.y][1] = 1 + rbtCount*2 + self.loaded
+        self.interval = 0
 
     def move_down(self, warehouseFloor):
         if (self.y < ROW_COUNT - 1 and warehouseFloor[self.x][self.y + 1][0] not in [0.5,1.5] and (not self.loaded or warehouseFloor[self.x][self.y + 1][0] not in [1])):
