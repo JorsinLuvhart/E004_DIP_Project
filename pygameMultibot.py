@@ -279,8 +279,8 @@ class GameWindow():
 
     def observe(self):
         ret = self.warehouseFloor.copy()
-        for i in range(len(self.robotList)):
-            ret[self.robotList[i].x][self.robotList[i].y] = 4 + i * 2 + self.robotList[i].loaded
+        # for i in range(len(self.robotList)):
+        #     ret[self.robotList[i].x][self.robotList[i].y] = 4 + i * 2 + self.robotList[i].loaded
         return ret
 
     def view1(self):
@@ -304,4 +304,4 @@ class GameWindow():
             self.dis.blit(human.image, (human.x * GRID_SIZE, human.y * GRID_SIZE))
         pygame.display.update()
 
-GameWindow(1,2)
+# GameWindow(1,2)
