@@ -199,14 +199,12 @@ class GameWindow():
                 for event in pygame.event.get():
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_LEFT:
-                            self.action(3)
-                        if event.key == pygame.K_RIGHT:
-                            self.action(4)
-                        if event.key == pygame.K_DOWN:
                             self.action(2)
-                        if event.key == pygame.K_UP:
+                        elif event.key == pygame.K_RIGHT:
+                            self.action(3)
+                        elif event.key == pygame.K_DOWN:
                             self.action(1)
-                        if event.key == pygame.K_SPACE:
+                        elif event.key == pygame.K_UP:
                             self.action(0)
                         print(self.evaluate())
                 self.view1()
