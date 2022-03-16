@@ -293,7 +293,7 @@ class GameWindow():
         layout = [
             [
                 pg.Text("Status of Robot: ", size=(10, 10)),
-                pg.OptionMenu(values = ("Robot 1", "Robot 2", "Robot 3"), size = (20,1)), pg.Text("1", size=(8,1))
+                pg.OptionMenu(values = ("Robot 1", "Robot 2", "Robot 3"), size = (20,1), key = "-robot-")
                 #pg.Checkbox("Robot 1", "1.00"),
                 #pg.Checkbox("Robot 2", "2.00"),
                 #pg.Checkbox("Robot 3", "3.00"),
@@ -301,7 +301,7 @@ class GameWindow():
             ],
             [
                 pg.Text("Number of Parcels: ",  size = (10, 10)),
-                pg.OptionMenu(values = ("1", "2", "3"), size = (20, 1)), pg.Text("1", size = (8, 1))
+                pg.OptionMenu(values = ("1", "2", "3"), size = (20, 1), key = "-parcel-")
                 #pg.Radio("1", "1"),
                 #pg.Radio("2", "2"),
                 #pg.Radio("3", "3"),
@@ -309,7 +309,7 @@ class GameWindow():
             ],
             [
                 pg.Text("Number of destination: ", size = (10, 10)),
-                pg.OptionMenu(values = ("1", "2", "3"), size = (20, 1)), pg.Text("1", size = (8, 1))
+                pg.OptionMenu(values = ("1", "2", "3"), size = (20, 1), key = "-destination-")
                 #pg.Radio("1", "1.0"),
                 #pg.Radio("2", "2.0"),
                 #pg.Radio("3", "3.0"),
@@ -339,12 +339,14 @@ class GameWindow():
             print(event)      
             if event == pg.WIN_CLOSED:
                 exit(69)      
-            if event == 'Start':      
-                window['Start'].update(disabled=True)      
-                window['Stop'].update(disabled=False)      
-                window['Reset'].update(disabled=False)      
-                window['Submit'].update(disabled=True)      
-                recording = True      
+            if event == 'Start':
+                if values["-robot-"] or ["-parcel-"] or ["-destination-"]:
+                    pg.popup(f"Robot {values['-robot-'][6]}, Parcel {values['-parcel-'][0]}, Destination {values['-destination-'][0]}")
+                    window['Start'].update(disabled=True)      
+                    window['Stop'].update(disabled=False)      
+                    window['Reset'].update(disabled=False)      
+                    window['Submit'].update(disabled=True)      
+                    recording = True      
             elif event == 'Stop'  and recording:      
                 window['Stop'].update(disabled=True)      
                 window['Start'].update(disabled=False)      
