@@ -22,9 +22,9 @@ class Robot():
         self.x = x
         self.y = y
         self.loaded = 0
-        self.image = pygame.image.load(r"Resources/loader.png")
-        width, height = self.image.get_width(), self.image.get_height()  # get size of image
-        self.image = pygame.transform.scale(self.image, (width*SCALE, height*SCALE))
+        self.image = pygame.image.load(r"Resources/Roomba-bot.png")
+#        width, height = self.image.get_width(), self.image.get_height()  # get size of image
+        self.image = pygame.transform.scale(self.image, (GRID_SIZE*SCALE, GRID_SIZE*SCALE))
         self.id = 1 + rbtCount*2
         warehouseFloor[self.x][self.y][1] = 1 + rbtCount*2 + self.loaded
         self.interval = 0
@@ -64,8 +64,8 @@ class Parcel():
         #   self.x = random.randint(0, COLUMN_COUNT-1)
         #   self.y = random.randint(0, ROW_COUNT-1)
         self.image = pygame.image.load(r"Resources/package.png")
-        width, height = self.image.get_width(), self.image.get_height()  # get size of image
-        self.image = pygame.transform.scale(self.image, (width*SCALE, height*SCALE))
+#        width, height = self.image.get_width(), self.image.get_height()  # get size of image
+        self.image = pygame.transform.scale(self.image, (GRID_SIZE*SCALE, GRID_SIZE*SCALE))
         warehouseFloor[self.x][self.y][0] = 1
 
 
@@ -78,9 +78,9 @@ class Destination():
         #   self.y = random.randint(0, ROW_COUNT-1)
         self.x = x
         self.y = y
-        self.image = pygame.image.load(r"Resources/warehouse.png")
-        width, height = self.image.get_width(), self.image.get_height()  # get size of image
-        self.image = pygame.transform.scale(self.image, (width*SCALE, height*SCALE))
+        self.image = pygame.image.load(r"Resources/warehouse-new.png")
+#        width, height = self.image.get_width(), self.image.get_height()  # get size of image
+        self.image = pygame.transform.scale(self.image, (GRID_SIZE*SCALE, GRID_SIZE*SCALE))
         warehouseFloor[self.x][self.y][0] = 2
 
 
@@ -94,9 +94,9 @@ class Boulder():
         #   self.y = random.randint(0, ROW_COUNT - 1)
         self.x = x
         self.y = y
-        self.image = pygame.image.load(r"Resources/boulder.png")
-        width, height = self.image.get_width(), self.image.get_height()  # get size of image
-        self.image = pygame.transform.scale(self.image, (width*SCALE, height*SCALE))
+        self.image = pygame.image.load(r"Resources/brick.png")
+#        width, height = self.image.get_width(), self.image.get_height()  # get size of image
+        self.image = pygame.transform.scale(self.image, (GRID_SIZE*SCALE, GRID_SIZE*SCALE))
         warehouseFloor[self.x][self.y][0] = 0.5
 
 
@@ -106,8 +106,8 @@ class Human():
         self.y = y
         self.direction = 1 #1 is right side -1 is left
         self.image = pygame.image.load(r"Resources/person.png")
-        width, height = self.image.get_width(), self.image.get_height()  # get size of image
-        self.image = pygame.transform.scale(self.image, (width*SCALE, height*SCALE))
+#        width, height = self.image.get_width(), self.image.get_height()  # get size of image
+        self.image = pygame.transform.scale(self.image, (GRID_SIZE*SCALE, GRID_SIZE*SCALE))
         warehouseFloor[self.x][self.y][0] = 1.5
 
     def randMov(self, warehouseFloor):
@@ -304,4 +304,4 @@ class GameWindow():
             self.dis.blit(human.image, (human.x * GRID_SIZE, human.y * GRID_SIZE))
         pygame.display.update()
 
-#GameWindow(1,2)
+GameWindow(1,2)
