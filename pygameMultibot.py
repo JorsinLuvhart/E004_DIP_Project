@@ -29,25 +29,25 @@ class Robot():
         warehouseFloor[self.x][self.y][1] = 1 + rbtCount*2 + self.loaded
 
     def move_down(self, warehouseFloor):
-        if (self.y < ROW_COUNT - 1 and warehouseFloor[self.x][self.y + 1][0] < 3 and (not self.loaded or warehouseFloor[self.x][self.y + 1][0] not in [1])):
+        if (self.y < ROW_COUNT - 1 and warehouseFloor[self.x][self.y + 1][0] not in [0.5,1.5] and (not self.loaded or warehouseFloor[self.x][self.y + 1][0] not in [1])):
             warehouseFloor[self.x][self.y][1] = 0  
             self.y = self.y + 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded  
 
     def move_up(self, warehouseFloor):
-        if (self.y > 0 and warehouseFloor[self.x][self.y - 1][0] < 3 and (not self.loaded or warehouseFloor[self.x][self.y-1][0] not in [1])):
+        if (self.y > 0 and warehouseFloor[self.x][self.y - 1][0] not in [0.5,1.5] and (not self.loaded or warehouseFloor[self.x][self.y-1][0] not in [1])):
             warehouseFloor[self.x][self.y][1] = 0  
             self.y = self.y - 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded
 
     def move_left(self, warehouseFloor):
-        if (self.x > 0 and warehouseFloor[self.x - 1][self.y][0] < 3 and (not self.loaded or warehouseFloor[self.x-1][self.y][0] not in [1])):
+        if (self.x > 0 and warehouseFloor[self.x - 1][self.y][0] not in [0.5,1.5] and (not self.loaded or warehouseFloor[self.x-1][self.y][0] not in [1])):
             warehouseFloor[self.x][self.y][1] = 0  
             self.x = self.x - 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded
 
     def move_right(self, warehouseFloor):
-        if (self.x < COLUMN_COUNT - 1 and warehouseFloor[self.x + 1][self.y][0] < 3 and (not self.loaded or warehouseFloor[self.x+1][self.y][0] not in [1])):
+        if (self.x < COLUMN_COUNT - 1 and warehouseFloor[self.x + 1][self.y][0] not in [0.5,1.5] and (not self.loaded or warehouseFloor[self.x+1][self.y][0] not in [1])):
             warehouseFloor[self.x][self.y][1] = 0  
             self.x = self.x + 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded
@@ -96,7 +96,7 @@ class Boulder():
         self.image = pygame.image.load(r"Resources/boulder.png")
         width, height = self.image.get_width(), self.image.get_height()  # get size of image
         self.image = pygame.transform.scale(self.image, (width*SCALE, height*SCALE))
-        warehouseFloor[self.x][self.y][0] = 3
+        warehouseFloor[self.x][self.y][0] = 0.5
 
 
 class Human():
@@ -107,7 +107,7 @@ class Human():
         self.image = pygame.image.load(r"Resources/person.png")
         width, height = self.image.get_width(), self.image.get_height()  # get size of image
         self.image = pygame.transform.scale(self.image, (width*SCALE, height*SCALE))
-        warehouseFloor[self.x][self.y][0] = 4
+        warehouseFloor[self.x][self.y][0] = 1.5
 
     def randMov(self, warehouseFloor):
       choice = random.randint(0, 2)
@@ -115,24 +115,24 @@ class Human():
         if (self.x > 0 and warehouseFloor[self.x - 1][self.y][0] == 0 and warehouseFloor[self.x - 1][self.y][1] == 0):
             warehouseFloor[self.x][self.y][0] = 0  
             self.x = self.x - 1
-            warehouseFloor[self.x][self.y][0] = 4 
+            warehouseFloor[self.x][self.y][0] = 1.5 
       elif choice%3 == 1: #move right
         if (self.x < COLUMN_COUNT - 1 and warehouseFloor[self.x + 1][self.y][0] == 0 and warehouseFloor[self.x + 1][self.y][1] == 0):
             warehouseFloor[self.x][self.y][0] = 0  
             self.x = self.x + 1
-            warehouseFloor[self.x][self.y][0] = 4
+            warehouseFloor[self.x][self.y][0] = 1.5
 
     def movTilCol(self, warehouseFloor):
       if (self.x+self.direction >= 0 and self.x+self.direction < COLUMN_COUNT and warehouseFloor[self.x+self.direction][self.y][0] == 0 and warehouseFloor[self.x+self.direction][self.y][1] == 0):
         warehouseFloor[self.x][self.y][0] = 0
         self.x = self.x + self.direction
-        warehouseFloor[self.x][self.y][0] = 4
+        warehouseFloor[self.x][self.y][0] = 1.5
       else:
         self.direction = self.direction * -1
         if (self.x+self.direction >= 0 and self.x+self.direction < COLUMN_COUNT and warehouseFloor[self.x+self.direction][self.y][0] == 0 and warehouseFloor[self.x+self.direction][self.y][1] == 0):
           warehouseFloor[self.x][self.y][0] = 0
           self.x = self.x + self.direction
-          warehouseFloor[self.x][self.y][0] = 4
+          warehouseFloor[self.x][self.y][0] = 1.5
         
 
 class GameWindow():
@@ -140,7 +140,7 @@ class GameWindow():
     def __init__(self, manualControl, parcelNum):
         """ Initialise object here"""
 
-        self.warehouseFloor = np.zeros([COLUMN_COUNT, ROW_COUNT,2], dtype=int)
+        self.warehouseFloor = np.zeros([COLUMN_COUNT, ROW_COUNT,2], dtype=float)
         self.stepnum = 0
         self.collected = -1
         pygame.init()
@@ -229,7 +229,7 @@ class GameWindow():
         # print("Dep")
         robot.loaded = 0
 
-        def action(self, action):
+    def action(self, action):
         self.stepnum += 1
 
         for human in self.humanList:
