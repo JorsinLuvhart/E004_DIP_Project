@@ -14,7 +14,8 @@ SCALE = GRID_SIZE / 80
 COLUMN_COUNT = int(SCREEN_WIDTH / (GRID_SIZE))
 ROW_COUNT = int(SCREEN_HEIGHT / (GRID_SIZE))
 ROBOT_COLLISION = True
-# If False, no collision, if True, collision allowed
+# If False, no collision, if True, collision allowed with other robots
+# Collision with boxes are always False when robot is loaded
 # SCREEN_TITLE = "Cooperative Bots Design"
 
 
