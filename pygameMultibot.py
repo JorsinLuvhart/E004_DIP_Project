@@ -8,12 +8,15 @@ print("Python version " + sys.version)
 SCREEN_WIDTH = 880
 SCREEN_HEIGHT = 880
 GRID_SIZE = 80  # please only divide/multiply this by 2s
-#MARGIN = 2 
+# MARGIN = 2 
 SCALE = GRID_SIZE / 80
-#BOX_LENGTH = GRID_SIZE - MARGIN
+# BOX_LENGTH = GRID_SIZE - MARGIN
 COLUMN_COUNT = int(SCREEN_WIDTH / (GRID_SIZE))
 ROW_COUNT = int(SCREEN_HEIGHT / (GRID_SIZE))
-#SCREEN_TITLE = "Cooperative Bots Design"
+ROBOT_COLLISION = True
+# If False, no collision, if True, collision allowed with other robots
+# Collision with boxes are always False when robot is loaded
+# SCREEN_TITLE = "Cooperative Bots Design"
 
 
 # warehouse floor, 0=blank space, 1=robot, 2=parcel, 3=destination
@@ -30,28 +33,29 @@ class Robot():
         self.interval = 0
 
     def move_down(self, warehouseFloor):
-        if (self.y < ROW_COUNT - 1 and warehouseFloor[self.x][self.y + 1][0] not in [0.5,1.5] and (not self.loaded or warehouseFloor[self.x][self.y + 1][0] not in [1])):
+        if (self.y < ROW_COUNT - 1 and warehouseFloor[self.x][self.y + 1][0] not in [0.5,1.5] and (not self.loaded or warehouseFloor[self.x][self.y + 1][0] not in [1]) and (warehouseFloor[self.x][self.y+1][1] == 0 or ROBOT_COLLISION)):
             warehouseFloor[self.x][self.y][1] = 0  
             self.y = self.y + 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded  
 
     def move_up(self, warehouseFloor):
-        if (self.y > 0 and warehouseFloor[self.x][self.y - 1][0] not in [0.5,1.5] and (not self.loaded or warehouseFloor[self.x][self.y-1][0] not in [1])):
+        if (self.y > 0 and warehouseFloor[self.x][self.y - 1][0] not in [0.5,1.5] and (not self.loaded or warehouseFloor[self.x][self.y-1][0] not in [1]) and (warehouseFloor[self.x][self.y-1][1] == 0 or ROBOT_COLLISION)):
             warehouseFloor[self.x][self.y][1] = 0  
             self.y = self.y - 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded
 
     def move_left(self, warehouseFloor):
-        if (self.x > 0 and warehouseFloor[self.x - 1][self.y][0] not in [0.5,1.5] and (not self.loaded or warehouseFloor[self.x-1][self.y][0] not in [1])):
+        if (self.x > 0 and warehouseFloor[self.x - 1][self.y][0] not in [0.5,1.5] and (not self.loaded or warehouseFloor[self.x-1][self.y][0] not in [1]) and (warehouseFloor[self.x - 1][self.y][1] == 0 or ROBOT_COLLISION)):
             warehouseFloor[self.x][self.y][1] = 0  
             self.x = self.x - 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded
 
     def move_right(self, warehouseFloor):
-        if (self.x < COLUMN_COUNT - 1 and warehouseFloor[self.x + 1][self.y][0] not in [0.5,1.5] and (not self.loaded or warehouseFloor[self.x+1][self.y][0] not in [1])):
+        if (self.x < COLUMN_COUNT - 1 and warehouseFloor[self.x + 1][self.y][0] not in [0.5,1.5] and (not self.loaded or warehouseFloor[self.x+1][self.y][0] not in [1]) and (warehouseFloor[self.x + 1][self.y][1] == 0 or ROBOT_COLLISION)):
             warehouseFloor[self.x][self.y][1] = 0  
             self.x = self.x + 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded
+
 
 
 class Parcel():
@@ -215,7 +219,7 @@ class GameWindow():
       print(self.warehouseFloor[:][:][1])
 
     def parcelCol(self, parcel, robot):
-        # need to eventually figure out which is the collected parcel\
+        # need to eventually figure out which is the collected parcel
         # print("Col")
         robot.loaded = 1
         self.warehouseFloor[parcel.x][parcel.y][0] = 0
@@ -223,6 +227,7 @@ class GameWindow():
         del parcel
         self.parcelList.append(Parcel(self.warehouseFloor, self.parcelCor[self.collected % len(self.parcelCor)][0],
                                       self.parcelCor[self.collected % len(self.parcelCor)][1]))
+
 
     def parcelDep(self, robot):
         # print("Dep")
@@ -244,6 +249,12 @@ class GameWindow():
           elif action % 4 == 3:
             robot.move_right(self.warehouseFloor)
           action = action//4
+
+        for robot in self.robotList:
+          self.warehouseFloor[robot.x][robot.y][1] = robot.id
+
+        for parcel in self.parcelList:
+          self.warehouseFloor[parcel.x][parcel.y][0] = 1
 
     def evaluate(self):
         self.reward = 0
@@ -279,8 +290,8 @@ class GameWindow():
 
     def observe(self):
         ret = self.warehouseFloor.copy()
-        # for i in range(len(self.robotList)):
-        #     ret[self.robotList[i].x][self.robotList[i].y] = 4 + i * 2 + self.robotList[i].loaded
+        for i in range(len(self.robotList)):
+            ret[self.robotList[i].x][self.robotList[i].y] = 4 + i * 2 + self.robotList[i].loaded
         return ret
 
     def view1(self):
@@ -293,6 +304,10 @@ class GameWindow():
         #                        blockSize, blockSize)
         #        pygame.draw.rect(self.dis, WHITE, rect, 1)
         for robot in self.robotList:
+            if robot.loaded == 1:
+                robot.image = pygame.image.load(r"Resources/robot-with-load.png")
+            else:
+                robot.image = pygame.image.load(r"Resources/robot-without-load.png")
             self.dis.blit(robot.image, (robot.x * GRID_SIZE, robot.y * GRID_SIZE))
         for desti in self.destiList:
             self.dis.blit(desti.image, (desti.x * GRID_SIZE, desti.y * GRID_SIZE))
@@ -304,4 +319,4 @@ class GameWindow():
             self.dis.blit(human.image, (human.x * GRID_SIZE, human.y * GRID_SIZE))
         pygame.display.update()
 
-# GameWindow(1,2)
+GameWindow(1,2)
