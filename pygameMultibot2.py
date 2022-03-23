@@ -240,6 +240,8 @@ class GameWindow():
     def parcelDep(self, robot):
         # print("Dep")
         robot.loaded = 0
+        soundObj = pygame.mixer.Sound('Resources/parceldeposited.mp3')
+        soundObj.play()
 
     def action(self, action):
         self.stepnum += 1
