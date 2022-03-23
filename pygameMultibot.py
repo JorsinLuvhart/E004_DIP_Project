@@ -170,7 +170,7 @@ class GameWindow():
                             self.action(0)
                         print(self.evaluate())
                 self.view1()
-                self.view2()
+                #self.view2()
 
     def printWHF(self):
       print(self.warehouseFloor[:][:][0])
@@ -266,17 +266,23 @@ class GameWindow():
         testingimage2 = Image.open(r"Resources/BG2.png")
         testingimage2jov = ImageTk.PhotoImage(testingimage2)
 
+        testingimage3 = Image.open(r"Resources/robot-with-load.png")
+        testingimage3jov = ImageTk.PhotoImage(testingimage3)
 
         def sel1():
             lbl1 = Label(window)
-            lbl1.place(x=370, y=225)
+            lbl1.place(x=475, y=225)
             lbl1.configure(image=testingimage1jov)
 
         def sel2():
             lbl2 = Label(window)
-            lbl2.place(x=370, y=225)
+            lbl2.place(x=475, y=225)
             lbl2.configure(image=testingimage2jov)
-
+       
+        def sel3():
+            lbl3 = Label(window)
+            lbl3.place(x=475, y=225)
+            lbl3.configure(image=testingimage3jov)
 
         lbl = Label(window, text="Layout", font=("Arial Bold", 10))
         lbl.place(x=475, y=200)
@@ -284,6 +290,8 @@ class GameWindow():
         btn1.place(x=400, y=175)
         btn2 = Radiobutton(window, text="Layout 2", value=2, command=sel2)
         btn2.place(x=530, y=175)
+        btn3 = Radiobutton(window, text="Layout 3", value=3, command=sel3)
+        btn3.place(x=475, y=200)
 
         def click100():
             window.destroy()
@@ -314,87 +322,87 @@ class GameWindow():
         pygame.display.update()
         #window.mainloop()
 
-    def view2(self):
-        # set theme
-        pg.theme("default1")
+#     def view2(self):
+#         # set theme
+#         pg.theme("default1")
 
-        #create the layout
-        layout = [
-            [
-                pg.Text("Status of Robot: ", size=(10, 10)),
-                pg.OptionMenu(values = ("Robot 1", "Robot 2", "Robot 3"), size = (20,1), key = "-robot-")
-                #pg.Checkbox("Robot 1", "1.00"),
-                #pg.Checkbox("Robot 2", "2.00"),
-                #pg.Checkbox("Robot 3", "3.00"),
+#         #create the layout
+#         layout = [
+#             [
+#                 pg.Text("Status of Robot: ", size=(10, 10)),
+#                 pg.OptionMenu(values = ("Robot 1", "Robot 2", "Robot 3"), size = (20,1), key = "-robot-")
+#                 #pg.Checkbox("Robot 1", "1.00"),
+#                 #pg.Checkbox("Robot 2", "2.00"),
+#                 #pg.Checkbox("Robot 3", "3.00"),
                 
-            ],
-            [
-                pg.Text("Number of Parcels: ",  size = (10, 10)),
-                pg.OptionMenu(values = ("1", "2", "3"), size = (20, 1), key = "-parcel-")
-                #pg.Radio("1", "1"),
-                #pg.Radio("2", "2"),
-                #pg.Radio("3", "3"),
+#             ],
+#             [
+#                 pg.Text("Number of Parcels: ",  size = (10, 10)),
+#                 pg.OptionMenu(values = ("1", "2", "3"), size = (20, 1), key = "-parcel-")
+#                 #pg.Radio("1", "1"),
+#                 #pg.Radio("2", "2"),
+#                 #pg.Radio("3", "3"),
                 
-            ],
-            [
-                pg.Text("Number of destination: ", size = (10, 10)),
-                pg.OptionMenu(values = ("1", "2", "3"), size = (20, 1), key = "-destination-")
-                #pg.Radio("1", "1.0"),
-                #pg.Radio("2", "2.0"),
-                #pg.Radio("3", "3.0"),
+#             ],
+#             [
+#                 pg.Text("Number of destination: ", size = (10, 10)),
+#                 pg.OptionMenu(values = ("1", "2", "3"), size = (20, 1), key = "-destination-")
+#                 #pg.Radio("1", "1.0"),
+#                 #pg.Radio("2", "2.0"),
+#                 #pg.Radio("3", "3.0"),
                 
-            ],
-            [
-                pg.Button('Start', button_color=('white', 'black'), key='Start'),      
-                pg.Button('Stop', button_color=('white', 'black'), key='Stop'),      
-                pg.Button('Reset', button_color=('white', 'firebrick3'), key='Reset'),      
-                pg.Button('Submit', button_color=('white', 'springgreen4'), key='Submit')
-            ]
+#             ],
+#             [
+#                 pg.Button('Start', button_color=('white', 'black'), key='Start'),      
+#                 pg.Button('Stop', button_color=('white', 'black'), key='Stop'),      
+#                 pg.Button('Reset', button_color=('white', 'firebrick3'), key='Reset'),      
+#                 pg.Button('Submit', button_color=('white', 'springgreen4'), key='Submit')
+#             ]
 
-        ]
+#         ]
         
-        # Create Window
-        # Blue = (0,0,200)
-        window = pg.Window("Cooperative Bots Design", layout, default_element_size=(12,1), text_justification='r', auto_size_text=False, auto_size_buttons=False, default_button_element_size=(12,1), finalize=True)
+#         # Create Window
+#         # Blue = (0,0,200)
+#         window = pg.Window("Cooperative Bots Design", layout, default_element_size=(12,1), text_justification='r', auto_size_text=False, auto_size_buttons=False, default_button_element_size=(12,1), finalize=True)
 
-        window['Stop'].update(disabled=True)      
-        window['Reset'].update(disabled=True)      
-        window['Submit'].update(disabled=True)      
-        recording = have_data = False
-        # Event Loop
+#         window['Stop'].update(disabled=True)      
+#         window['Reset'].update(disabled=True)      
+#         window['Submit'].update(disabled=True)      
+#         recording = have_data = False
+#         # Event Loop
 
-        while True:      
-            event, values = window.read()      
-            print(event)      
-            if event == pg.WIN_CLOSED:
-                exit(69)      
-            if event == 'Start':
-                if values["-robot-"] or ["-parcel-"] or ["-destination-"]:
-                    pg.popup(f"Robot {values['-robot-'][6]}, Parcel {values['-parcel-'][0]}, Destination {values['-destination-'][0]}")
-                    window['Start'].update(disabled=True)      
-                    window['Stop'].update(disabled=False)      
-                    window['Reset'].update(disabled=False)      
-                    window['Submit'].update(disabled=True)      
-                    recording = True      
-            elif event == 'Stop'  and recording:      
-                window['Stop'].update(disabled=True)      
-                window['Start'].update(disabled=False)      
-                window['Submit'].update(disabled=False)      
-                recording = False      
-                have_data = True      
-            elif event == 'Reset':      
-                window['Stop'].update(disabled=True)      
-                window['Start'].update(disabled=False)      
-                window['Submit'].update(disabled=True)      
-                window['Reset'].update(disabled=False)      
-                recording = False      
-                have_data = False      
-            elif event == 'Submit'  and have_data:      
-                window['Stop'].update(disabled=True)      
-                window['Start'].update(disabled=False)      
-                window['Submit'].update(disabled=True)      
-                window['Reset'].update(disabled=False)      
-                recording = False     
+#         while True:      
+#             event, values = window.read()      
+#             print(event)      
+#             if event == pg.WIN_CLOSED:
+#                 exit(69)      
+#             if event == 'Start':
+#                 if values["-robot-"] or ["-parcel-"] or ["-destination-"]:
+#                     pg.popup(f"Robot {values['-robot-'][6]}, Parcel {values['-parcel-'][0]}, Destination {values['-destination-'][0]}")
+#                     window['Start'].update(disabled=True)      
+#                     window['Stop'].update(disabled=False)      
+#                     window['Reset'].update(disabled=False)      
+#                     window['Submit'].update(disabled=True)      
+#                     recording = True      
+#             elif event == 'Stop'  and recording:      
+#                 window['Stop'].update(disabled=True)      
+#                 window['Start'].update(disabled=False)      
+#                 window['Submit'].update(disabled=False)      
+#                 recording = False      
+#                 have_data = True      
+#             elif event == 'Reset':      
+#                 window['Stop'].update(disabled=True)      
+#                 window['Start'].update(disabled=False)      
+#                 window['Submit'].update(disabled=True)      
+#                 window['Reset'].update(disabled=False)      
+#                 recording = False      
+#                 have_data = False      
+#             elif event == 'Submit'  and have_data:      
+#                 window['Stop'].update(disabled=True)      
+#                 window['Start'].update(disabled=False)      
+#                 window['Submit'].update(disabled=True)      
+#                 window['Reset'].update(disabled=False)      
+#                 recording = False     
 
 
 GameWindow(1,2)
