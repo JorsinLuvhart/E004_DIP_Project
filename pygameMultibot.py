@@ -294,33 +294,45 @@ class GameWindow():
         btn3.place(x=475, y=200)
 
         def click100():
-            window.destroy()
-            exit()
+            self.dis
+            run = True
+            while run:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        run = False
+                WHITE = (0,0,0)
+                self.dis.fill((0, 255, 255))
+                blockSize = 80 #Set the size of the grid block
+                for x in range(SCREEN_WIDTH):
+                    for y in range(SCREEN_HEIGHT):
+                        rect = pygame.Rect(x*blockSize, y*blockSize,
+                                        blockSize, blockSize)
+                        pygame.draw.rect(self.dis, WHITE, rect, 1)
+                for robot in self.robotList:
+                    self.dis.blit(robot.image, (robot.x * 80, robot.y * 80))
+                for desti in self.destiList:
+                    self.dis.blit(desti.image, (desti.x * 80, desti.y * 80))
+                for parcel in self.parcelList:
+                    self.dis.blit(parcel.image, (parcel.x * 80, parcel.y * 80))
+                for boulder in self.boulderList:
+                    self.dis.blit(boulder.image, (boulder.x * 80, boulder.y * 80))
+                pygame.display.update()
+                window.withdraw()
+            pygame.quit()
+                
+            # pygame.display.flip()
+            # window.destroy()
+            # exit()
             #opengamewindow = GameWindow(1,2) #add after adding layouts
         btn100 = Button(window, text="RUN", command=click100)
         btn100.place(x=465, y=425)
+            
+
+
+
 
         window.mainloop()  # keeping loop open
 
-
-        WHITE = (0,0,0)
-        self.dis.fill((0, 255, 255))
-        blockSize = 80 #Set the size of the grid block
-        for x in range(SCREEN_WIDTH):
-            for y in range(SCREEN_HEIGHT):
-                rect = pygame.Rect(x*blockSize, y*blockSize,
-                                blockSize, blockSize)
-                pygame.draw.rect(self.dis, WHITE, rect, 1)
-        for robot in self.robotList:
-            self.dis.blit(robot.image, (robot.x * 80, robot.y * 80))
-        for desti in self.destiList:
-            self.dis.blit(desti.image, (desti.x * 80, desti.y * 80))
-        for parcel in self.parcelList:
-            self.dis.blit(parcel.image, (parcel.x * 80, parcel.y * 80))
-        for boulder in self.boulderList:
-            self.dis.blit(boulder.image, (boulder.x * 80, boulder.y * 80))
-        pygame.display.update()
-        #window.mainloop()
 
 #     def view2(self):
 #         # set theme
