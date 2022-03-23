@@ -233,17 +233,26 @@ class GameWindow():
         ret = self.warehouseFloor.copy()
         for i in range(len(self.robotList)):
             ret[self.robotList[i].x][self.robotList[i].y] = 4 + i * 2 + self.robotList[i].loaded
-        return ret
+        return ret1
 
     def view1(self):
 
         window = tk.Tk()
 
         window.title("Cooperative Bots Design")  # window title
-        window.geometry('1600x900')  # size of window
+        window.geometry('1000x500')  # size of window
+
+        canvas = Canvas(width=1000, height=550, bg='blue')
+        canvas.pack(expand=YES, fill=BOTH)
+
+        image = Image.open("Resources/warehouse background.png")
+        image = image.resize((1000, 550), Image.ANTIALIAS)
+        image.save(fp="Resources/newBG.png")
+        image = ImageTk.PhotoImage(file=r"Resources/newBG.png")
+        canvas.create_image(0, 0, image=image, anchor=NW)
 
         lbltitle = Label(window, text="Cooperative Bots Design", font=("Arial Bold", 30))
-        lbltitle.place(x=400, y=1)
+        lbltitle.place(x=270, y=120)
 
         testingimage1 = Image.open(r"Resources/destination.png")
         testingimage1jov = ImageTk.PhotoImage(testingimage1)
@@ -254,34 +263,34 @@ class GameWindow():
 
         def sel1():
             lbl1 = Label(window)
-            lbl1.place(x=600, y=200)
+            lbl1.place(x=460, y=250)
             lbl1.configure(image=testingimage1jov)
 
         def sel2():
             lbl2 = Label(window)
-            lbl2.place(x=600, y=200)
+            lbl2.place(x=460, y=250)
             lbl2.configure(image=testingimage2jov)
 
         def sel3():
             lbl3 = Label(window)
-            lbl3.place(x=600, y=200)
+            lbl3.place(x=460, y=250)
             lbl3.configure(image=testingimage3jov)
 
         lbl = Label(window, text="Layout", font=("Arial Bold", 10))
-        lbl.place(x=600, y=90)
+        lbl.place(x=475, y=175)
         btn1 = Radiobutton(window, text="Layout 1", value=1, command=sel1)
-        btn1.place(x=500, y=150)
+        btn1.place(x=366, y=200)
         btn2 = Radiobutton(window, text="Layout 2", value=2, command=sel2)
-        btn2.place(x=600, y=150)
+        btn2.place(x=466, y=200)
         btn3 = Radiobutton(window, text="Layout 3", value=3, command=sel3)
-        btn3.place(x=700, y=150)
+        btn3.place(x=566, y=200)
 
         def click100():
             window.destroy()
             exit()
             #opengamewindow = GameWindow(1,2) #add after adding layouts
         btn100 = Button(window, text="RUN", command=click100)
-        btn100.place(x=600, y=500)
+        btn100.place(x=600, y=750)
 
         window.mainloop()  # keeping loop open
 
