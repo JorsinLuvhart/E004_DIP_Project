@@ -316,6 +316,23 @@ class GameWindow():
                     self.dis.blit(parcel.image, (parcel.x * 80, parcel.y * 80))
                 for boulder in self.boulderList:
                     self.dis.blit(boulder.image, (boulder.x * 80, boulder.y * 80))
+
+                for event in pygame.event.get():
+                        if event.type == pygame.KEYDOWN:
+                            if event.key == pygame.K_LEFT:
+                                self.action(2)
+                            elif event.key == pygame.K_RIGHT:
+                                self.action(3)
+                            elif event.key == pygame.K_DOWN:
+                                self.action(1)
+                            elif event.key == pygame.K_UP:
+                                self.action(0)
+                            self.printWHF()
+                            print(self.evaluate())
+                        
+
+
+
                 pygame.display.update()
                 window.withdraw()
             pygame.quit()
@@ -332,6 +349,8 @@ class GameWindow():
 
 
         window.mainloop()  # keeping loop open
+
+GameWindow(1,2)
 
 
 #     def view2(self):
