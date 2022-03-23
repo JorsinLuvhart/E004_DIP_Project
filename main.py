@@ -1,12 +1,8 @@
-import arcadeWindow
-import arcade    
+from pygameMultibot import GameWindow
     
 
 def main():
-    """Main function"""
-    window = arcadeWindow.GameWindow()
-    window.setup()
-    arcade.run()
+    gameWin = GameWindow(1,2)
 
 if __name__ == "__main__":
   main()
