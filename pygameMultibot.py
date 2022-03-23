@@ -5,6 +5,9 @@ import random
 import tkinter as tk
 from tkinter import *
 from tkinter.ttk import *
+from tkinter import Tk, Text, TOP, BOTH, X, N, LEFT
+from tkinter.ttk import Frame, Label, Entry
+from PIL import Image, ImageTk
 import platform
 import pygame
 import PySimpleGUI as pg
@@ -234,45 +237,53 @@ class GameWindow():
 
     def view1(self):
 
-        #window = Tk()
+        window = tk.Tk()
 
-        #window.title("Cooperative Bots Design")
-        #window.geometry('1600x900')
-        #combo = Combobox(window)
-        #combo1 = Combobox(window)
+        window.title("Cooperative Bots Design")  # window title
+        window.geometry('1600x900')  # size of window
 
-        #def click():
-            #lbl2.configure(text="Parcel is at XXX")
-        #def click1():
-            #lbl3.configure(text="Parcel delivered at XXX")
+        lbltitle = Label(window, text="Cooperative Bots Design", font=("Arial Bold", 30))
+        lbltitle.place(x=400, y=1)
 
-        #lblrobot1 = Label(window, text="Status: \n\nRobot 1:", font=("Arial Bold", 10))
-        #lblrobot1.place(x=1, y=1)
-        #lblrobot2 = Label(window, text="Robot 2:", font=("Arial Bold", 10))
-        #lblrobot2.place(x=1, y=200)
-        #lblrobot3 = Label(window, text="Robot 3:", font=("Arial Bold", 10))
-        #lblrobot3.place(x=1, y=300)
+        testingimage1 = Image.open(r"Resources/destination.png")
+        testingimage1jov = ImageTk.PhotoImage(testingimage1)
+        testingimage2 = Image.open(r"Resources/brick.png")
+        testingimage2jov = ImageTk.PhotoImage(testingimage2)
+        testingimage3 = Image.open(r"Resources/robot-with-load.png")
+        testingimage3jov = ImageTk.PhotoImage(testingimage3)
 
-        #lbl = Label(window, text="Parameters: \nNo. of parcel:\n", font=("Arial Bold", 10))
-        #lbl.place(x=1100, y=40)
-        #btn = Button(window, text="Parcel details", command=click)
-        #btn.place(x=1100, y=150)
-        #combo['values'] = (1, 2, 3, 4, 5)
-        #combo.current(1)  # set the selected item
-        #combo.place(x=1100, y=100)
+        def sel1():
+            lbl1 = Label(window)
+            lbl1.place(x=600, y=200)
+            lbl1.configure(image=testingimage1jov)
 
-        #lbl1 = Label(window, text="No. of destination:.", font=("Arial Bold", 10))
-        #lbl1.place(x=1100, y=340)
-        #btn1 = Button(window, text="Destination details", command=click1)
-        #btn1.place(x=1100, y=450)
-        #combo1['values'] = (1, 2, 3, 4, 5)
-        #combo1.current(1)  # set the selected item
-        #combo1.place(x=1100, y=400)
+        def sel2():
+            lbl2 = Label(window)
+            lbl2.place(x=600, y=200)
+            lbl2.configure(image=testingimage2jov)
 
-        #lbl2 = Label(window, font=("Arial Bold", 10))
-        #lbl2.place(x=1100, y=200)
-        #lbl3 = Label(window, font=("Arial Bold", 10))
-        #lbl3.place(x=1100, y=500)
+        def sel3():
+            lbl3 = Label(window)
+            lbl3.place(x=600, y=200)
+            lbl3.configure(image=testingimage3jov)
+
+        lbl = Label(window, text="Layout", font=("Arial Bold", 10))
+        lbl.place(x=600, y=90)
+        btn1 = Radiobutton(window, text="Layout 1", value=1, command=sel1)
+        btn1.place(x=500, y=150)
+        btn2 = Radiobutton(window, text="Layout 2", value=2, command=sel2)
+        btn2.place(x=600, y=150)
+        btn3 = Radiobutton(window, text="Layout 3", value=3, command=sel3)
+        btn3.place(x=700, y=150)
+
+        def click100():
+            window.destroy()
+            exit()
+            #opengamewindow = GameWindow(1,2) #add after adding layouts
+        btn100 = Button(window, text="RUN", command=click100)
+        btn100.place(x=600, y=500)
+
+        window.mainloop()  # keeping loop open
 
 
         WHITE = (0,0,0)
