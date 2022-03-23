@@ -225,6 +225,9 @@ class GameWindow():
         # print("Col")
         robot.loaded = 1
         self.warehouseFloor[parcel.x][parcel.y][0] = 0
+        soundObj = pygame.mixer.Sound('Resources/parcelpickup.wav')
+        soundObj.play()
+        
         self.parcelList.remove(parcel)
         del parcel
         self.parcelList.append(Parcel(self.warehouseFloor, self.parcelCor[self.collected % len(self.parcelCor)][0],
