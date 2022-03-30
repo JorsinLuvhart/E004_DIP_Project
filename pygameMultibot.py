@@ -8,10 +8,8 @@ from tkinter.ttk import *
 from tkinter import Tk, Text, TOP, BOTH, X, N, LEFT
 from tkinter.ttk import Frame, Label, Entry
 from PIL import Image, ImageTk
-import platform
-import pygame
-import PySimpleGUI as pg
-import os
+
+
 print("Python version " + sys.version)
 
 SCREEN_WIDTH = 720
@@ -37,28 +35,28 @@ class Robot():
 
     def move_down(self, warehouseFloor):
         if (self.y < ROW_COUNT - 1 and warehouseFloor[self.x][self.y + 1][0] not in [3] and (not self.loaded or warehouseFloor[self.x][self.y + 1][0] not in [1])):
-            warehouseFloor[self.x][self.y][1] = 0  
+            warehouseFloor[self.x][self.y][1] = 0
             self.y = self.y + 1
-            warehouseFloor[self.x][self.y][1] = self.id + self.loaded  
+            warehouseFloor[self.x][self.y][1] = self.id + self.loaded
 
     def move_up(self, warehouseFloor):
         if (self.y > 0 and warehouseFloor[self.x][self.y - 1][0] not in [3] and (not self.loaded or warehouseFloor[self.x][self.y-1][0] not in [1])):
-            warehouseFloor[self.x][self.y][1] = 0  
+            warehouseFloor[self.x][self.y][1] = 0
             self.y = self.y - 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded
 
     def move_left(self, warehouseFloor):
         if (self.x > 0 and warehouseFloor[self.x - 1][self.y][0] not in [3] and (not self.loaded or warehouseFloor[self.x-1][self.y][0] not in [1])):
-            warehouseFloor[self.x][self.y][1] = 0  
+            warehouseFloor[self.x][self.y][1] = 0
             self.x = self.x - 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded
 
     def move_right(self, warehouseFloor):
         if (self.x < COLUMN_COUNT - 1 and warehouseFloor[self.x + 1][self.y][0] not in [3] and (not self.loaded or warehouseFloor[self.x+1][self.y][0] not in [1])):
-            warehouseFloor[self.x][self.y][1] = 0  
+            warehouseFloor[self.x][self.y][1] = 0
             self.x = self.x + 1
             warehouseFloor[self.x][self.y][1] = self.id + self.loaded
-              
+
 
 
 class Parcel():
@@ -170,7 +168,6 @@ class GameWindow():
                             self.action(0)
                         print(self.evaluate())
                 self.view1()
-                #self.view2()
 
     def printWHF(self):
       print(self.warehouseFloor[:][:][0])
@@ -233,7 +230,7 @@ class GameWindow():
         ret = self.warehouseFloor.copy()
         for i in range(len(self.robotList)):
             ret[self.robotList[i].x][self.robotList[i].y] = 4 + i * 2 + self.robotList[i].loaded
-        return ret1
+        return ret
 
     def view1(self):
 
@@ -245,44 +242,36 @@ class GameWindow():
         canvas = Canvas(width=1000, height=550, bg='blue')
         canvas.pack(expand=YES, fill=BOTH)
 
-        #image = Image.open("Resources/warehouse background.png")
-        #image = image.resize((1000, 550), Image.ANTIALIAS)
-        #image.save(fp="Resources/newBG.png")
+        # image = Image.open("Resources/warehouse background.png")
+        # image = image.resize((1000, 550), Image.ANTIALIAS)
+        # image.save(fp="Resources/newBG.png")
         image = ImageTk.PhotoImage(file=r"Resources/newBG.png")
         canvas.create_image(0, 0, image=image, anchor=NW)
 
         lbltitle = Label(window, text="Cooperative Bots Design", font=("Arial Bold", 30))
         lbltitle.place(x=270, y=120)
 
-        #image = Image.open("Resources/BG.jpg")
-        #image = image.resize((255, 190), Image.ANTIALIAS)
-        #image.save(fp="Resources/BG1.png")
+        # image = Image.open("Resources/BG.jpg")
+        # image = image.resize((255, 190), Image.ANTIALIAS)
+        # image.save(fp="Resources/BG1.png")
         testingimage1 = Image.open(r"Resources/BG1.png")
         testingimage1jov = ImageTk.PhotoImage(testingimage1)
 
-        #image = Image.open("Resources/warehouse.png")
-        #image = image.resize((255, 190), Image.ANTIALIAS)
-        #image.save(fp="Resources/BG2.png")
+        # image = Image.open("Resources/warehouse.png")
+        # image = image.resize((255, 190), Image.ANTIALIAS)
+        # image.save(fp="Resources/BG2.png")
         testingimage2 = Image.open(r"Resources/BG2.png")
         testingimage2jov = ImageTk.PhotoImage(testingimage2)
 
-        testingimage3 = Image.open(r"Resources/robot-with-load.png")
-        testingimage3jov = ImageTk.PhotoImage(testingimage3)
-
         def sel1():
             lbl1 = Label(window)
-            lbl1.place(x=475, y=225)
+            lbl1.place(x=370, y=225)
             lbl1.configure(image=testingimage1jov)
 
         def sel2():
             lbl2 = Label(window)
-            lbl2.place(x=475, y=225)
+            lbl2.place(x=370, y=225)
             lbl2.configure(image=testingimage2jov)
-       
-        def sel3():
-            lbl3 = Label(window)
-            lbl3.place(x=475, y=225)
-            lbl3.configure(image=testingimage3jov)
 
         lbl = Label(window, text="Layout", font=("Arial Bold", 10))
         lbl.place(x=475, y=200)
@@ -290,8 +279,6 @@ class GameWindow():
         btn1.place(x=400, y=175)
         btn2 = Radiobutton(window, text="Layout 2", value=2, command=sel2)
         btn2.place(x=530, y=175)
-        btn3 = Radiobutton(window, text="Layout 3", value=3, command=sel3)
-        btn3.place(x=475, y=200)
 
         def click100():
             self.dis
@@ -300,13 +287,13 @@ class GameWindow():
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         run = False
-                WHITE = (0,0,0)
+                WHITE = (0, 0, 0)
                 self.dis.fill((0, 255, 255))
-                blockSize = 80 #Set the size of the grid block
+                blockSize = 80  # Set the size of the grid block
                 for x in range(SCREEN_WIDTH):
                     for y in range(SCREEN_HEIGHT):
-                        rect = pygame.Rect(x*blockSize, y*blockSize,
-                                        blockSize, blockSize)
+                        rect = pygame.Rect(x * blockSize, y * blockSize,
+                                           blockSize, blockSize)
                         pygame.draw.rect(self.dis, WHITE, rect, 1)
                 for robot in self.robotList:
                     self.dis.blit(robot.image, (robot.x * 80, robot.y * 80))
@@ -318,122 +305,30 @@ class GameWindow():
                     self.dis.blit(boulder.image, (boulder.x * 80, boulder.y * 80))
 
                 for event in pygame.event.get():
-                        if event.type == pygame.KEYDOWN:
-                            if event.key == pygame.K_LEFT:
-                                self.action(2)
-                            elif event.key == pygame.K_RIGHT:
-                                self.action(3)
-                            elif event.key == pygame.K_DOWN:
-                                self.action(1)
-                            elif event.key == pygame.K_UP:
-                                self.action(0)
-                            self.printWHF()
-                            print(self.evaluate())
-                        
-
-
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_LEFT:
+                            self.action(2)
+                        elif event.key == pygame.K_RIGHT:
+                            self.action(3)
+                        elif event.key == pygame.K_DOWN:
+                            self.action(1)
+                        elif event.key == pygame.K_UP:
+                            self.action(0)
+                        self.printWHF()
+                        print(self.evaluate())
 
                 pygame.display.update()
                 window.withdraw()
             pygame.quit()
-                
+
             # pygame.display.flip()
             # window.destroy()
             # exit()
-            #opengamewindow = GameWindow(1,2) #add after adding layouts
+            # opengamewindow = GameWindow(1,2) #add after adding layouts
+
         btn100 = Button(window, text="RUN", command=click100)
         btn100.place(x=465, y=425)
-            
-
-
-
 
         window.mainloop()  # keeping loop open
 
-GameWindow(1,2)
-
-
-#     def view2(self):
-#         # set theme
-#         pg.theme("default1")
-
-#         #create the layout
-#         layout = [
-#             [
-#                 pg.Text("Status of Robot: ", size=(10, 10)),
-#                 pg.OptionMenu(values = ("Robot 1", "Robot 2", "Robot 3"), size = (20,1), key = "-robot-")
-#                 #pg.Checkbox("Robot 1", "1.00"),
-#                 #pg.Checkbox("Robot 2", "2.00"),
-#                 #pg.Checkbox("Robot 3", "3.00"),
-                
-#             ],
-#             [
-#                 pg.Text("Number of Parcels: ",  size = (10, 10)),
-#                 pg.OptionMenu(values = ("1", "2", "3"), size = (20, 1), key = "-parcel-")
-#                 #pg.Radio("1", "1"),
-#                 #pg.Radio("2", "2"),
-#                 #pg.Radio("3", "3"),
-                
-#             ],
-#             [
-#                 pg.Text("Number of destination: ", size = (10, 10)),
-#                 pg.OptionMenu(values = ("1", "2", "3"), size = (20, 1), key = "-destination-")
-#                 #pg.Radio("1", "1.0"),
-#                 #pg.Radio("2", "2.0"),
-#                 #pg.Radio("3", "3.0"),
-                
-#             ],
-#             [
-#                 pg.Button('Start', button_color=('white', 'black'), key='Start'),      
-#                 pg.Button('Stop', button_color=('white', 'black'), key='Stop'),      
-#                 pg.Button('Reset', button_color=('white', 'firebrick3'), key='Reset'),      
-#                 pg.Button('Submit', button_color=('white', 'springgreen4'), key='Submit')
-#             ]
-
-#         ]
-        
-#         # Create Window
-#         # Blue = (0,0,200)
-#         window = pg.Window("Cooperative Bots Design", layout, default_element_size=(12,1), text_justification='r', auto_size_text=False, auto_size_buttons=False, default_button_element_size=(12,1), finalize=True)
-
-#         window['Stop'].update(disabled=True)      
-#         window['Reset'].update(disabled=True)      
-#         window['Submit'].update(disabled=True)      
-#         recording = have_data = False
-#         # Event Loop
-
-#         while True:      
-#             event, values = window.read()      
-#             print(event)      
-#             if event == pg.WIN_CLOSED:
-#                 exit(69)      
-#             if event == 'Start':
-#                 if values["-robot-"] or ["-parcel-"] or ["-destination-"]:
-#                     pg.popup(f"Robot {values['-robot-'][6]}, Parcel {values['-parcel-'][0]}, Destination {values['-destination-'][0]}")
-#                     window['Start'].update(disabled=True)      
-#                     window['Stop'].update(disabled=False)      
-#                     window['Reset'].update(disabled=False)      
-#                     window['Submit'].update(disabled=True)      
-#                     recording = True      
-#             elif event == 'Stop'  and recording:      
-#                 window['Stop'].update(disabled=True)      
-#                 window['Start'].update(disabled=False)      
-#                 window['Submit'].update(disabled=False)      
-#                 recording = False      
-#                 have_data = True      
-#             elif event == 'Reset':      
-#                 window['Stop'].update(disabled=True)      
-#                 window['Start'].update(disabled=False)      
-#                 window['Submit'].update(disabled=True)      
-#                 window['Reset'].update(disabled=False)      
-#                 recording = False      
-#                 have_data = False      
-#             elif event == 'Submit'  and have_data:      
-#                 window['Stop'].update(disabled=True)      
-#                 window['Start'].update(disabled=False)      
-#                 window['Submit'].update(disabled=True)      
-#                 window['Reset'].update(disabled=False)      
-#                 recording = False     
-
-
-GameWindow(1,2)
+GameWindow(1, 2)
