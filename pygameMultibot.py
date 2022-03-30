@@ -273,52 +273,30 @@ class GameWindow():
             lbl2.place(x=370, y=225)
             lbl2.configure(image=testingimage2jov)
 
+        var = StringVar(window)
+        var.set(None)
         lbl = Label(window, text="Layout", font=("Arial Bold", 10))
         lbl.place(x=475, y=200)
-        btn1 = Radiobutton(window, text="Layout 1", value=1, command=sel1)
+        btn1 = Radiobutton(window, text="Layout 1", variable=var, value='choice1', command=sel1)
         btn1.place(x=400, y=175)
-        btn2 = Radiobutton(window, text="Layout 2", value=2, command=sel2)
+        btn2 = Radiobutton(window, text="Layout 2", variable=var, value='choice2', command=sel2)
         btn2.place(x=530, y=175)
 
-        def click100():
-            self.dis
-            run = True
-            while run:
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        run = False
-                WHITE = (0, 0, 0)
-                self.dis.fill((0, 255, 255))
-                blockSize = 80  # Set the size of the grid block
-                for x in range(SCREEN_WIDTH):
-                    for y in range(SCREEN_HEIGHT):
-                        rect = pygame.Rect(x * blockSize, y * blockSize,
-                                           blockSize, blockSize)
-                        pygame.draw.rect(self.dis, WHITE, rect, 1)
-                for robot in self.robotList:
-                    self.dis.blit(robot.image, (robot.x * 80, robot.y * 80))
-                for desti in self.destiList:
-                    self.dis.blit(desti.image, (desti.x * 80, desti.y * 80))
-                for parcel in self.parcelList:
-                    self.dis.blit(parcel.image, (parcel.x * 80, parcel.y * 80))
-                for boulder in self.boulderList:
-                    self.dis.blit(boulder.image, (boulder.x * 80, boulder.y * 80))
+        def click100(var):
+            if var=='choice1':
+                # windowbtn1 = tk.Tk()
+                # windowbtn1.title("LAYOUT 1")  # window title
+                # windowbtn1.geometry('500x500')  # size of window
+                print(1)
+            else:
+                # windowbtn2 = tk.Tk()
+                # windowbtn2.title("LAYOUT 2")  # window title
+                # windowbtn2.geometry('500x500')  # size of window
+                print(2)
 
-                for event in pygame.event.get():
-                    if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_LEFT:
-                            self.action(2)
-                        elif event.key == pygame.K_RIGHT:
-                            self.action(3)
-                        elif event.key == pygame.K_DOWN:
-                            self.action(1)
-                        elif event.key == pygame.K_UP:
-                            self.action(0)
-                        self.printWHF()
-                        print(self.evaluate())
 
-                pygame.display.update()
-                window.withdraw()
+            pygame.display.update()
+            window.withdraw()
             pygame.quit()
 
             # pygame.display.flip()
@@ -326,7 +304,7 @@ class GameWindow():
             # exit()
             # opengamewindow = GameWindow(1,2) #add after adding layouts
 
-        btn100 = Button(window, text="RUN", command=click100)
+        btn100 = Button(window, text="RUN", command=lambda: click100(var.get()))
         btn100.place(x=465, y=425)
 
         window.mainloop()  # keeping loop open
